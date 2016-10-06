@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1">
+        <TextView
+            android:text="sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sampleTextView" />
+    </FrameLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ButtonLayout">
+        <Button
+            android:text="Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/SettingsButton" />
+        <Button
+            android:text="Pause All"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/PauseAllButton" />
+        <Button
+            android:text="Add Timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/AddTimerButton" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/fragmentContainer"
+        android:layout_above="@id/ButtonLayout">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/timerLayout" />
+    </ScrollView>
+</RelativeLayout>

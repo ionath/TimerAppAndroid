@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerAppDroid", "TimerAppDroid\TimerAppDroid.csproj", "{8166B374-93AF-419E-BC18-81E351D1EBBA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TimerAppShared", "TimerAppShared\TimerAppShared.shproj", "{0B24EA66-2205-4279-942A-CC26E4EA9F3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerUnitTest", "TimerUnitTest\TimerUnitTest.csproj", "{C6194827-ACB5-4041-A3BB-3A7A8756CA56}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TimerAppShared\TimerAppShared.projitems*{8166b374-93af-419e-bc18-81e351d1ebba}*SharedItemsImports = 4
+		TimerAppShared\TimerAppShared.projitems*{0b24ea66-2205-4279-942a-cc26e4ea9f3e}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8166B374-93AF-419E-BC18-81E351D1EBBA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C6194827-ACB5-4041-A3BB-3A7A8756CA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6194827-ACB5-4041-A3BB-3A7A8756CA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6194827-ACB5-4041-A3BB-3A7A8756CA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6194827-ACB5-4041-A3BB-3A7A8756CA56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

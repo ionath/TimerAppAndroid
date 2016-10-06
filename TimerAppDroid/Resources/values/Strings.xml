@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Hello">Hello World, Click Me!</string>
+    <string name="ApplicationName">TimerAppDroid</string>
+  <string name="DefaultAlarmName">Alarm</string>
+  <string name="AlarmDismiss">Dismiss</string>
+  <string name="AlarmNameLabel">Alarm Name</string>
+  <string name="Pause">Pause</string>
+  <string name="Start">Start</string>
+  <string name="Reset">Reset</string>
+  <string name="Delete">Delete</string>
+  <string name="Edit">Edit</string>
+  <string name="Save">Save</string>
+</resources>

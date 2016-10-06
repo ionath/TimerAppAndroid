@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0b24ea66-2205-4279-942a-cc26e4ea9f3e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TimerAppShared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BitField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationAdaptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerDBItems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerMVAdaptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerState.cs" />
+  </ItemGroup>
+</Project>

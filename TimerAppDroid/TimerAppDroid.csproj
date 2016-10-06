@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8166B374-93AF-419E-BC18-81E351D1EBBA}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimerAppDroid</RootNamespace>
+    <AssemblyName>TimerAppDroid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <Debugger>Xamarin</Debugger>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activities\AlarmNotification.cs" />
+    <Compile Include="AndroidNotificationAdaptor.cs" />
+    <Compile Include="AndroidNotificationManager.cs" />
+    <Compile Include="Timer\AndroidTimerMVAdaptor.cs" />
+    <Compile Include="Timer\AndroidTimerService.cs" />
+    <Compile Include="GenerateIds.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SQLite\SQLite.cs" />
+    <Compile Include="SQLite\SQLiteAsync.cs" />
+    <Compile Include="TextViewHelper.cs" />
+    <Compile Include="TimerAppStatus.cs" />
+    <Compile Include="Activities\TimerEditor.cs" />
+    <Compile Include="Timer\TimerList.cs" />
+    <Compile Include="Timer\TimerServiceManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="GettingStarted.Xamarin" />
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\TimerEditor.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\AlarmNotification.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\sampleTab.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\TextStyles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\notification_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\tones\elegant_ringtone.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Raw\elegant_ringtone.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\alarm_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\textSizes.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="sqlite-net">
+      <Visible>False</Visible>
+      <Version>1.0.11</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="..\TimerAppShared\TimerAppShared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\MonoAndroid\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\MonoAndroid\SQLitePCL.raw_basic.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\MonoAndroid\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.6\build\MonoAndroid\SQLitePCL.raw_basic.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+		<Target Name="BeforeBuild">
+		</Target>
+		<Target Name="AfterBuild">
+		</Target>
+ -->
+</Project>

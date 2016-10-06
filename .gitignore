@@ -1,0 +1,8 @@
+.vs
+*.bak
+*.user
+*debug
+*release
+UpgradeLog.htm
+Components/
+packages/

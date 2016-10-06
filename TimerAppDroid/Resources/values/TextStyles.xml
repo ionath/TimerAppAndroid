@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="EditorTimerText" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">80sp</item>
+    <item name="android:textColor">#FFF</item>
+  </style>
+  <style name="KeyPadStyle">
+    <item name="android:textSize">40sp</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_column">1</item>
+    <item name="android:layout_weight">1</item>
+  </style>
+  <style name="KeyPadStyleText" parent="@style/KeyPadStyle">
+    <item name="android:textSize">20sp</item>
+    <item name="android:layout_height">match_parent</item>
+  </style>
+  <style name="OldKeyPadStyleText" parent="@style/KeyPadStyle">
+    <item name="android:textSize">20sp</item>
+    <item name="android:layout_gravity">fill</item>
+    <item name="android:layout_columnWeight">1</item>
+  </style>
+  <style name="KeyPadRowStyle">
+    <item name="android:orientation">horizontal</item>
+    <item name="android:minWidth">25px</item>
+    <item name="android:minHeight">25px</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_centerHorizontal">true</item>
+  </style>
+  <style name="TimerText" parent="@android:style/TextAppearance.Large">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_centerHorizontal">true</item>
+    <item name="android:textSize">40sp</item>
+  </style>
+  <style name="TimerAlarmNameText" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">20sp</item>
+  </style>
+  <style name="EditorTimerLabelText" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">20sp</item>
+  </style>
+</resources>

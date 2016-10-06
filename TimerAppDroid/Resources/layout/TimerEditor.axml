@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/linearLayout1">
+        <TextView
+            android:text="0"
+            style="@style/EditorTimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hourText" />
+        <TextView
+            android:text=":"
+            style="@style/EditorTimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seperator1" />
+        <TextView
+            android:text="00"
+            style="@style/EditorTimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/minuteText" />
+        <TextView
+            android:text=":"
+            style="@style/EditorTimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seperator2" />
+        <TextView
+            android:text="00"
+            style="@style/EditorTimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/secondText" />
+    </LinearLayout>
+    <TextView
+        android:text="@string/AlarmNameLabel"
+        style="@style/EditorTimerLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alarmNameLabel"
+        android:layout_below="@id/linearLayout1" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/alarmNameLabel"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/linearLayout1"
+        android:id="@+id/editAlarmName"
+        android:text="@string/DefaultAlarmName"
+        android:gravity="right" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout2">
+        <Button
+            android:text="@string/Save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:id="@+id/saveButton" />
+        <Button
+            android:text="@string/Start"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:id="@+id/startButton" />
+    </LinearLayout>
+    <GridLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearLayout2"
+        android:columnCount="1"
+        android:id="@+id/gridLayout1">
+        <LinearLayout
+            style="@style/KeyPadRowStyle"
+            android:id="@+id/linearLayoutRow1">
+            <Button
+                android:text="1"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad1" />
+            <Button
+                android:text="2"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad2" />
+            <Button
+                android:text="3"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad3" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/KeyPadRowStyle"
+            android:id="@+id/linearLayoutRow2">
+            <Button
+                android:text="4"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad4" />
+            <Button
+                android:text="5"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad5" />
+            <Button
+                android:text="6"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad6" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/KeyPadRowStyle"
+            android:id="@+id/linearLayoutRow3">
+            <Button
+                android:text="7"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad7" />
+            <Button
+                android:text="8"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad8" />
+            <Button
+                android:text="9"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad9" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/KeyPadRowStyle"
+            android:id="@+id/linearLayoutRow4">
+            <Button
+                android:text="del"
+                style="@style/KeyPadStyleText"
+                android:id="@+id/numPadDel" />
+            <Button
+                android:text="0"
+                style="@style/KeyPadStyle"
+                android:id="@+id/numPad0" />
+            <Button
+                android:text=""
+                style="@style/KeyPadStyleText"
+                android:id="@+id/numPadNext" />
+        </LinearLayout>
+    </GridLayout>
+</RelativeLayout>
