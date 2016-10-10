@@ -4,7 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:id="@+id/topLevelLayout"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
@@ -13,13 +18,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:id="@+id/linearLayout1">
+        android:id="@+id/timeFieldsLayout">
         <TextView
             android:text="0"
             style="@style/EditorTimerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/hourText" />
+            android:id="@+id/hourText"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
         <TextView
             android:text=":"
             style="@style/EditorTimerText"
@@ -31,7 +38,9 @@
             style="@style/EditorTimerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/minuteText" />
+            android:id="@+id/minuteText"
+            android:focusableInTouchMode="true"
+            android:focusable="true" />
         <TextView
             android:text=":"
             style="@style/EditorTimerText"
@@ -43,7 +52,9 @@
             style="@style/EditorTimerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/secondText" />
+            android:id="@+id/secondText"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
     </LinearLayout>
     <TextView
         android:text="@string/AlarmNameLabel"
@@ -51,16 +62,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/alarmNameLabel"
-        android:layout_below="@id/linearLayout1" />
+        android:layout_below="@id/timeFieldsLayout" />
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/alarmNameLabel"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/linearLayout1"
+        android:layout_below="@id/timeFieldsLayout"
         android:id="@+id/editAlarmName"
         android:text="@string/DefaultAlarmName"
-        android:gravity="right" />
+        android:gravity="right"
+        android:singleLine="true"
+        android:selectAllOnFocus="true" />
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
@@ -69,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/bottonButtonsLayout">
         <Button
             android:text="@string/Save"
             android:layout_width="wrap_content"
@@ -90,12 +103,12 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/linearLayout2"
+        android:layout_above="@id/bottonButtonsLayout"
         android:columnCount="1"
-        android:id="@+id/gridLayout1">
+        android:id="@+id/keypadGridLayout">
         <LinearLayout
             style="@style/KeyPadRowStyle"
-            android:id="@+id/linearLayoutRow1">
+            android:id="@+id/keypadLayoutRow1">
             <Button
                 android:text="1"
                 style="@style/KeyPadStyle"
@@ -111,7 +124,7 @@
         </LinearLayout>
         <LinearLayout
             style="@style/KeyPadRowStyle"
-            android:id="@+id/linearLayoutRow2">
+            android:id="@+id/keypadLayoutRow2">
             <Button
                 android:text="4"
                 style="@style/KeyPadStyle"
@@ -127,7 +140,7 @@
         </LinearLayout>
         <LinearLayout
             style="@style/KeyPadRowStyle"
-            android:id="@+id/linearLayoutRow3">
+            android:id="@+id/keypadLayoutRow3">
             <Button
                 android:text="7"
                 style="@style/KeyPadStyle"
@@ -143,7 +156,7 @@
         </LinearLayout>
         <LinearLayout
             style="@style/KeyPadRowStyle"
-            android:id="@+id/linearLayoutRow4">
+            android:id="@+id/keypadLayoutRow4">
             <Button
                 android:text="del"
                 style="@style/KeyPadStyleText"

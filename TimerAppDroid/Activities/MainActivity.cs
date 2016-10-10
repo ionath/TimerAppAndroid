@@ -123,7 +123,7 @@ namespace TimerAppDroid
             addTimerButton.Click += delegate
             {
                 // Show timer editor
-                var intent = new Intent(this, typeof(TimerEditor));
+                var intent = new Intent(this, typeof(TimerEditorActivity));
                 StartActivityForResult(intent, REQUEST_CODE_ADD_TIMER);
             };
 

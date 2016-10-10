@@ -70,7 +70,7 @@
     <Compile Include="SQLite\SQLiteAsync.cs" />
     <Compile Include="TextViewHelper.cs" />
     <Compile Include="TimerAppStatus.cs" />
-    <Compile Include="Activities\TimerEditor.cs" />
+    <Compile Include="Activities\TimerEditorActivity.cs" />
     <Compile Include="Timer\TimerList.cs" />
     <Compile Include="Timer\TimerServiceManager.cs" />
   </ItemGroup>

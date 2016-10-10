@@ -97,107 +97,110 @@ namespace TimerAppDroid
 			// aapt resource value: 0x7f080002
 			public const int alarmImageView = 2131230722;
 			
-			// aapt resource value: 0x7f080011
-			public const int alarmNameLabel = 2131230737;
+			// aapt resource value: 0x7f080012
+			public const int alarmNameLabel = 2131230738;
 			
 			// aapt resource value: 0x7f080001
 			public const int alarmNameTextView = 2131230721;
 			
+			// aapt resource value: 0x7f080014
+			public const int bottonButtonsLayout = 2131230740;
+			
 			// aapt resource value: 0x7f080003
 			public const int dismissButton = 2131230723;
 			
-			// aapt resource value: 0x7f080012
-			public const int editAlarmName = 2131230738;
+			// aapt resource value: 0x7f080013
+			public const int editAlarmName = 2131230739;
 			
 			// aapt resource value: 0x7f080004
 			public const int fragmentContainer = 2131230724;
 			
-			// aapt resource value: 0x7f080016
-			public const int gridLayout1 = 2131230742;
-			
-			// aapt resource value: 0x7f08000c
-			public const int hourText = 2131230732;
-			
-			// aapt resource value: 0x7f08000b
-			public const int linearLayout1 = 2131230731;
-			
-			// aapt resource value: 0x7f080013
-			public const int linearLayout2 = 2131230739;
+			// aapt resource value: 0x7f08000d
+			public const int hourText = 2131230733;
 			
 			// aapt resource value: 0x7f080017
-			public const int linearLayoutRow1 = 2131230743;
-			
-			// aapt resource value: 0x7f08001b
-			public const int linearLayoutRow2 = 2131230747;
-			
-			// aapt resource value: 0x7f08001f
-			public const int linearLayoutRow3 = 2131230751;
-			
-			// aapt resource value: 0x7f080023
-			public const int linearLayoutRow4 = 2131230755;
-			
-			// aapt resource value: 0x7f08000e
-			public const int minuteText = 2131230734;
-			
-			// aapt resource value: 0x7f080025
-			public const int numPad0 = 2131230757;
+			public const int keypadGridLayout = 2131230743;
 			
 			// aapt resource value: 0x7f080018
-			public const int numPad1 = 2131230744;
-			
-			// aapt resource value: 0x7f080019
-			public const int numPad2 = 2131230745;
-			
-			// aapt resource value: 0x7f08001a
-			public const int numPad3 = 2131230746;
+			public const int keypadLayoutRow1 = 2131230744;
 			
 			// aapt resource value: 0x7f08001c
-			public const int numPad4 = 2131230748;
-			
-			// aapt resource value: 0x7f08001d
-			public const int numPad5 = 2131230749;
-			
-			// aapt resource value: 0x7f08001e
-			public const int numPad6 = 2131230750;
+			public const int keypadLayoutRow2 = 2131230748;
 			
 			// aapt resource value: 0x7f080020
-			public const int numPad7 = 2131230752;
-			
-			// aapt resource value: 0x7f080021
-			public const int numPad8 = 2131230753;
-			
-			// aapt resource value: 0x7f080022
-			public const int numPad9 = 2131230754;
+			public const int keypadLayoutRow3 = 2131230752;
 			
 			// aapt resource value: 0x7f080024
-			public const int numPadDel = 2131230756;
+			public const int keypadLayoutRow4 = 2131230756;
+			
+			// aapt resource value: 0x7f08000f
+			public const int minuteText = 2131230735;
 			
 			// aapt resource value: 0x7f080026
-			public const int numPadNext = 2131230758;
+			public const int numPad0 = 2131230758;
+			
+			// aapt resource value: 0x7f080019
+			public const int numPad1 = 2131230745;
+			
+			// aapt resource value: 0x7f08001a
+			public const int numPad2 = 2131230746;
+			
+			// aapt resource value: 0x7f08001b
+			public const int numPad3 = 2131230747;
+			
+			// aapt resource value: 0x7f08001d
+			public const int numPad4 = 2131230749;
+			
+			// aapt resource value: 0x7f08001e
+			public const int numPad5 = 2131230750;
+			
+			// aapt resource value: 0x7f08001f
+			public const int numPad6 = 2131230751;
+			
+			// aapt resource value: 0x7f080021
+			public const int numPad7 = 2131230753;
+			
+			// aapt resource value: 0x7f080022
+			public const int numPad8 = 2131230754;
+			
+			// aapt resource value: 0x7f080023
+			public const int numPad9 = 2131230755;
+			
+			// aapt resource value: 0x7f080025
+			public const int numPadDel = 2131230757;
+			
+			// aapt resource value: 0x7f080027
+			public const int numPadNext = 2131230759;
 			
 			// aapt resource value: 0x7f080005
 			public const int sampleTextView = 2131230725;
 			
-			// aapt resource value: 0x7f080014
-			public const int saveButton = 2131230740;
+			// aapt resource value: 0x7f080015
+			public const int saveButton = 2131230741;
+			
+			// aapt resource value: 0x7f080011
+			public const int secondText = 2131230737;
+			
+			// aapt resource value: 0x7f08000e
+			public const int seperator1 = 2131230734;
 			
 			// aapt resource value: 0x7f080010
-			public const int secondText = 2131230736;
-			
-			// aapt resource value: 0x7f08000d
-			public const int seperator1 = 2131230733;
-			
-			// aapt resource value: 0x7f08000f
-			public const int seperator2 = 2131230735;
+			public const int seperator2 = 2131230736;
 			
 			// aapt resource value: 0x7f080000
 			public const int space1 = 2131230720;
 			
-			// aapt resource value: 0x7f080015
-			public const int startButton = 2131230741;
+			// aapt resource value: 0x7f080016
+			public const int startButton = 2131230742;
+			
+			// aapt resource value: 0x7f08000c
+			public const int timeFieldsLayout = 2131230732;
 			
 			// aapt resource value: 0x7f08000a
 			public const int timerLayout = 2131230730;
+			
+			// aapt resource value: 0x7f08000b
+			public const int topLevelLayout = 2131230731;
 			
 			static Id()
 			{

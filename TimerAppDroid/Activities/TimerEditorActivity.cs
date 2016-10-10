@@ -14,7 +14,7 @@ using TimerAppShared;
 namespace TimerAppDroid
 {
     [Activity(Label = "TimerEditor")]
-    public class TimerEditor : Activity
+    public class TimerEditorActivity : Activity
     {
         enum eSlot { NONE, HOUR, MINUTE, SECOND};
 
@@ -25,20 +25,44 @@ namespace TimerAppDroid
         int hour = 0;
         int minute = 0;
         int second = 0;
+        bool timeEditable = true;
 
         Android.Graphics.Color unselectedColor = Android.Graphics.Color.White;
+        Android.Graphics.Color readOnlyColor = Android.Graphics.Color.Gray;
         Android.Graphics.Color selectedColor = Android.Graphics.Color.Aqua;
 
+        View topLevelLayout;
         TextView hourText;
         TextView minuteText;
         TextView secondText;
+        TextView separator1;
+        TextView separator2;
 
         string alarmName;
-        
+
+        TimerService timerService = null;
+        EventHandler displayTimeChangedHandler;
+
+        public override void Finish()
+        {
+            base.Finish();
+            
+            // Unsubscribe from event handling
+            if (timerService != null && displayTimeChangedHandler != null)
+            {
+                timerService.DisplayTimeChanged -= displayTimeChangedHandler;
+            }
+        }
+
         void updateSelected(eSlot newSelected)
         {
             // If new selection is the same as previous then do nothing
             if (newSelected == selected)
+            {
+                return;
+            }
+            // If time editing is disabled then do nothing
+            if (timeEditable == false)
             {
                 return;
             }
@@ -113,13 +137,21 @@ namespace TimerAppDroid
             }
         }
 
+        void setFocusNone()
+        {
+            if (topLevelLayout != null)
+            {
+                topLevelLayout.RequestFocus();
+            }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.TimerEditor);
 
-            TimerService timerService = null;
+            //TimerService timerService = null;
             int id = Intent.GetIntExtra("id", 0);
             // Get TimerDBItem
             if (id != 0)
@@ -127,28 +159,56 @@ namespace TimerAppDroid
                 timerService = TimerServiceManager.GetTimerServiceWithId(id);
             }
 
-            // Create your application here
+            // Get views by id
+            topLevelLayout = FindViewById<View>(Resource.Id.topLevelLayout);
             hourText = FindViewById<TextView>(Resource.Id.hourText);
             minuteText = FindViewById<TextView>(Resource.Id.minuteText);
             secondText = FindViewById<TextView>(Resource.Id.secondText);
+            separator1 = FindViewById<TextView>(Resource.Id.seperator1);
+            separator2 = FindViewById<TextView>(Resource.Id.seperator2);
             Button saveButton = FindViewById<Button>(Resource.Id.saveButton);
             Button startButton = FindViewById<Button>(Resource.Id.startButton);
             EditText editAlarmName = FindViewById<EditText>(Resource.Id.editAlarmName);
 
+            setFocusNone();
+
             if (timerService != null)
             {
-                long duration = timerService.GetState().duration;
-                hour = (int)(duration / 3600);
-                duration -= 3600 * hour;
-                minute = (int)(duration / 60);
-                duration -= 60 * minute;
-                second = (int)duration;
+                var duration = timerService.hourMinSec();
+                hour = duration.Item1;
+                minute = duration.Item2;
+                second = duration.Item3;
                 hourText.Text = hour.ToString();
                 minuteText.Text = minute.ToString().PadLeft(2, '0');
                 secondText.Text = second.ToString().PadLeft(2, '0');
 
                 alarmName = timerService.GetState().alarmName;
                 editAlarmName.Text = alarmName;
+
+                if (timerService.IsStarted())
+                {
+                    timeEditable = false;
+                    hourText.SetTextColor(readOnlyColor);
+                    minuteText.SetTextColor(readOnlyColor);
+                    secondText.SetTextColor(readOnlyColor);
+                    separator1.SetTextColor(readOnlyColor);
+                    separator2.SetTextColor(readOnlyColor);
+
+                    startButton.Enabled = false;
+
+                    displayTimeChangedHandler = delegate
+                    {
+                        var timeLeft = timerService.hourMinSec();
+
+                        this.RunOnUiThread(() =>
+                        {
+                            hourText.Text = timeLeft.Item1.ToString();
+                            minuteText.Text = timeLeft.Item2.ToString().PadLeft(2, '0');
+                            secondText.Text = timeLeft.Item3.ToString().PadLeft(2, '0');
+                        });
+                    };
+                    timerService.DisplayTimeChanged += displayTimeChangedHandler;
+                }
             }
 
             int[] numPadIds = new int[] {

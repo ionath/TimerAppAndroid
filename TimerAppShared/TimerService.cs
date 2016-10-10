@@ -19,6 +19,18 @@ namespace TimerAppShared
         Task task;
         public int Updatecount { get; private set; }
 
+        // event handling
+        public event EventHandler DisplayTimeChanged;
+
+        protected virtual void OnDisplayTimeChanged(EventArgs e)
+        {
+            EventHandler handler = DisplayTimeChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
         public TimerService()
         {
             //state.timeStart = DateTime.Now;
@@ -113,6 +125,7 @@ namespace TimerAppShared
                 while (state.flags.GetBit(TimerState.RUNNING_BIT))
                 {
                     timerAdaptor.UpdateDisplay();
+                    OnDisplayTimeChanged(EventArgs.Empty);
                     Updatecount++;
                     // Get milliseconds to next second completed
                     double secondsLeft = CalcSeconds();
@@ -235,6 +248,18 @@ namespace TimerAppShared
 
             string timeStr = hours.ToString() + ":" + minutes.ToString().PadLeft(2, '0') + ":" + seconds.ToString().PadLeft(2, '0');
             return timeStr;
+        }
+
+        public Tuple<int, int, int> hourMinSec()
+        {
+            long secondsLeft = (long)Math.Round(CalcSeconds());
+            int hours = (int)secondsLeft / 3600;
+            secondsLeft -= 3600 * hours;
+            int minutes = (int)secondsLeft / 60;
+            secondsLeft -= 60 * minutes;
+            int seconds = (int)secondsLeft;
+
+            return Tuple.Create<int, int, int>(hours, minutes, seconds);
         }
 
         public bool IsElapsed()
