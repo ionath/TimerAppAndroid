@@ -30,6 +30,7 @@ namespace TimerAppDroid
         Android.Graphics.Color unselectedColor = Android.Graphics.Color.White;
         Android.Graphics.Color readOnlyColor = Android.Graphics.Color.Gray;
         Android.Graphics.Color selectedColor = Android.Graphics.Color.Aqua;
+        Android.Graphics.Color elapsedColor = Android.Graphics.Color.Red;
 
         View topLevelLayout;
         TextView hourText;
@@ -145,6 +146,15 @@ namespace TimerAppDroid
             }
         }
 
+        void setTimerTextColor(Android.Graphics.Color color)
+        {
+            hourText.SetTextColor(color);
+            minuteText.SetTextColor(color);
+            secondText.SetTextColor(color);
+            separator1.SetTextColor(color);
+            separator2.SetTextColor(color);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -188,11 +198,7 @@ namespace TimerAppDroid
                 if (timerService.IsStarted())
                 {
                     timeEditable = false;
-                    hourText.SetTextColor(readOnlyColor);
-                    minuteText.SetTextColor(readOnlyColor);
-                    secondText.SetTextColor(readOnlyColor);
-                    separator1.SetTextColor(readOnlyColor);
-                    separator2.SetTextColor(readOnlyColor);
+                    setTimerTextColor(readOnlyColor);
 
                     startButton.Enabled = false;
 
@@ -202,6 +208,15 @@ namespace TimerAppDroid
 
                         this.RunOnUiThread(() =>
                         {
+                            if (timerService.IsElapsed())
+                            {
+                                setTimerTextColor(elapsedColor);
+                            }
+                            else if (timerService.IsRunning())
+                            {
+                                setTimerTextColor(readOnlyColor);
+                            }
+
                             hourText.Text = timeLeft.Item1.ToString();
                             minuteText.Text = timeLeft.Item2.ToString().PadLeft(2, '0');
                             secondText.Text = timeLeft.Item3.ToString().PadLeft(2, '0');

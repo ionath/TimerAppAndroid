@@ -17,7 +17,6 @@ using Android.Content.Res;
 
 namespace TimerAppDroid
 {
-    [SecurityCritical]
     class TimerList
     {
         List<AndroidTimerMVAdapter> timerAdaptors = new List<AndroidTimerMVAdapter>();

@@ -14,7 +14,7 @@ namespace TimerAppShared
         //const int ELAPSED_BIT = 1;
         //const int RUNNING_BIT = 2;
 
-        public TimerMVAdapter timerAdaptor;
+        //public TimerMVAdapter timerAdaptor;
         public NotificationAdaptor notificationAdaptor;
         Task task;
         public int Updatecount { get; private set; }
@@ -24,6 +24,9 @@ namespace TimerAppShared
 
         protected virtual void OnDisplayTimeChanged(EventArgs e)
         {
+            // TODO: This should be done using the event and adding a delegate
+            //timerAdaptor.UpdateDisplay();
+
             EventHandler handler = DisplayTimeChanged;
             if (handler != null)
             {
@@ -68,7 +71,8 @@ namespace TimerAppShared
             state.timeLeft = (double)duration;
             state.alarmName = alarmName;
 
-            timerAdaptor.UpdateDisplay();
+            //timerAdaptor.UpdateDisplay();
+            OnDisplayTimeChanged(EventArgs.Empty);
         }
 
         public TimerState GetState()
@@ -124,7 +128,7 @@ namespace TimerAppShared
             task = Task.Factory.StartNew(() => {
                 while (state.flags.GetBit(TimerState.RUNNING_BIT))
                 {
-                    timerAdaptor.UpdateDisplay();
+                    //timerAdaptor.UpdateDisplay();
                     OnDisplayTimeChanged(EventArgs.Empty);
                     Updatecount++;
                     // Get milliseconds to next second completed
@@ -156,7 +160,8 @@ namespace TimerAppShared
             task = Task.Factory.StartNew(() => {
                 while (state.flags.GetBit(TimerState.RUNNING_BIT))
                 {
-                    timerAdaptor.UpdateDisplay();
+                    //timerAdaptor.UpdateDisplay();
+                    OnDisplayTimeChanged(EventArgs.Empty);
                     Updatecount++;
                     // Get milliseconds to next second completed
                     double secondsLeft = CalcSeconds();
@@ -205,7 +210,8 @@ namespace TimerAppShared
         {
             state.flags.ClearBits(TimerState.RUNNING_BIT | TimerState.ELAPSED_BIT | TimerState.STARTED_BIT);
             state.timeLeft = state.duration;
-            timerAdaptor.UpdateDisplay();
+            //timerAdaptor.UpdateDisplay();
+            OnDisplayTimeChanged(EventArgs.Empty);
         }
 
         public void Delete()
@@ -216,7 +222,8 @@ namespace TimerAppShared
         static void CheckStatus(Object state)
         {
             TimerService timerService = (TimerService)state;
-            timerService.timerAdaptor.UpdateDisplay();
+            //timerService.timerAdaptor.UpdateDisplay();
+            timerService.OnDisplayTimeChanged(EventArgs.Empty);
         }
 
         public override string ToString()

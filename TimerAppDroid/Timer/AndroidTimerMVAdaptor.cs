@@ -18,6 +18,7 @@ namespace TimerAppDroid
     {
         TextView timeView;
         TextView alarmNameView;
+        EventHandler displayTimeChangedHandler;
         public RelativeLayout timerLayout { get; }
         public LinearLayout controlsLayout { get; }
         public TimerService timerService { get; private set; }
@@ -35,7 +36,19 @@ namespace TimerAppDroid
             timerLayout = _timerLayout;
             controlsLayout = _controlsLayout;
 
-            timerService.timerAdaptor = this;
+            //timerService.timerAdaptor = this;
+            displayTimeChangedHandler = delegate
+            {
+                UpdateDisplay();
+            };
+            timerService.DisplayTimeChanged += displayTimeChangedHandler;
+        }
+        ~AndroidTimerMVAdapter()
+        {
+            if (timerService != null && displayTimeChangedHandler != null)
+            {
+                timerService.DisplayTimeChanged -= displayTimeChangedHandler;
+            }
         }
 
         public void UpdateDisplay()
