@@ -14,12 +14,12 @@ namespace TimerAppDroid
 {
     class TextViewHelper
     {
-        public static void SetTextAppearance(Activity activity, TextView textView, int style)
+        public static void SetTextAppearance(Context context, TextView textView, int style)
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
 #pragma warning disable CS0618 // 'TextView.SetTextAppearance(Context, int)' is obsolete: 'deprecated'
-                textView.SetTextAppearance(activity, style);
+                textView.SetTextAppearance(context, style);
 #pragma warning restore CS0618 // 'TextView.SetTextAppearance(Context, int)' is obsolete: 'deprecated'
             }
             else

@@ -58,6 +58,8 @@
     <Compile Include="Activities\AlarmNotification.cs" />
     <Compile Include="AndroidNotificationAdaptor.cs" />
     <Compile Include="AndroidNotificationManager.cs" />
+    <Compile Include="TimerListAdaptor.cs" />
+    <Compile Include="TimerListItemView.cs" />
     <Compile Include="Timer\AndroidTimerMVAdaptor.cs" />
     <Compile Include="Timer\AndroidTimerService.cs" />
     <Compile Include="GenerateIds.cs" />
@@ -76,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />

@@ -36,6 +36,22 @@ namespace TimerAppDroid
                 "database.db3");
         }
 
+        public int Count
+        {
+            get
+            {
+                return timerAdaptors.Count;
+            }
+        }
+
+        public AndroidTimerMVAdapter this[int position]
+        {
+            get
+            {
+                return timerAdaptors[position];
+            }
+        }
+
         public void saveToBundle(Bundle bundle)
         {
             int timerCount = timerAdaptors.Count;

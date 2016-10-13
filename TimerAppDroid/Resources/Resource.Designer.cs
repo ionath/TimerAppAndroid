@@ -197,7 +197,7 @@ namespace TimerAppDroid
 			public const int timeFieldsLayout = 2131230732;
 			
 			// aapt resource value: 0x7f08000a
-			public const int timerLayout = 2131230730;
+			public const int timerListView = 2131230730;
 			
 			// aapt resource value: 0x7f08000b
 			public const int topLevelLayout = 2131230731;

@@ -21,7 +21,10 @@ namespace TimerAppDroid
     public class MainActivity : Activity
     {
         // List of timers
-        TimerList timerList;
+        //TimerList timerList;
+
+        ListView timerListView;
+        TimerListAdaptor timerListAdaptor;
 
         int lastTimerId = 0;
         
@@ -46,7 +49,7 @@ namespace TimerAppDroid
         {
             base.OnSaveInstanceState(outState);
             
-            timerList.saveToBundle(outState);
+            //timerList.saveToBundle(outState);
         }
         
         class SampleTabFragment : Fragment
@@ -67,7 +70,7 @@ namespace TimerAppDroid
                 return view;
             }
         }
-
+        
         [SecurityCritical]
         protected override void OnCreate(Bundle bundle)
         {
@@ -93,14 +96,31 @@ namespace TimerAppDroid
             // Initialise Notification manager
             AndroidNotificationManager.Initialize(this);
             notificationAdaptor = AndroidNotificationManager.GetAdaptor();
-            
-            // Create timer list
-            LinearLayout timerListLayout = FindViewById<LinearLayout>(Resource.Id.timerLayout);
-            timerList = new TimerList(this, timerListLayout);
 
-            // Load saved timers
-            timerList.LoadTimersFromDatabase();
-            timerList.SortTimersByActiveAndTimeLeft();
+            //// Create timer list
+            //LinearLayout timerListLayout = FindViewById<LinearLayout>(Resource.Id.timerLayout);
+            //timerList = new TimerList(this, timerListLayout);
+
+            //// Load saved timers
+            //timerList.LoadTimersFromDatabase();
+            //timerList.SortTimersByActiveAndTimeLeft();
+
+            //var testTimerDBItem = new TimerDBItem();
+            //testTimerDBItem.duration = 60;
+            //testTimerDBItem.timeLeft = testTimerDBItem.duration;
+            //testTimerDBItem.alarmName = "Test Data";
+
+            //TimerServiceManager.NewTimerService(testTimerDBItem);
+
+            TimerServiceManager.LoadTimersFromDatabase();
+            
+            timerListView = FindViewById<ListView>(Resource.Id.timerListView);
+            if (timerListView != null)
+            {
+                timerListAdaptor = new TimerListAdaptor(this);
+                timerListView.Adapter = timerListAdaptor;
+                timerListView.ItemClick += OnListItemClick;
+            }
             
             // Load settings
             var preferences = GetPreferences(FileCreationMode.Private);
@@ -131,13 +151,15 @@ namespace TimerAppDroid
             {
                 if (flags.GetBit(PAUSE_ALL_BIT))
                 {
-                    timerList.StartAllTimers();
+                    //timerList.StartAllTimers();
+                    // TODO: 
                     pauseAllButton.Text = "Pause All";
                     flags.ClearBits(PAUSE_ALL_BIT);
                 }
                 else
                 {
-                    timerList.StopAllTimers();
+                    //timerList.StopAllTimers();
+                    // TODO: 
                     pauseAllButton.Text = "Resume All";
                     flags.SetBits(PAUSE_ALL_BIT);
                 }
@@ -174,7 +196,15 @@ namespace TimerAppDroid
             base.OnStop();
 
             // Save timers to database
-            timerList.SaveTimersToDatabase();
+            //timerList.SaveTimersToDatabase();
+            // TODO: 
+        }
+
+        void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var listView = sender as ListView;
+            var t = TimerServiceManager.Instance[e.Position];
+            Android.Widget.Toast.MakeText(this, t.GetState().alarmName, Android.Widget.ToastLength.Short).Show();
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -198,13 +228,25 @@ namespace TimerAppDroid
                             var timerDBItem = new TimerDBItem();
                             timerDBItem.duration = 3600 * hour + 60 * minute + second;
                             timerDBItem.timeLeft = timerDBItem.duration;
+                            timerDBItem.timeStart = DateTime.Now;
                             timerDBItem.alarmName = alarmName;
+                            timerDBItem.running = start;
+
+                            var timerService = TimerServiceManager.NewTimerService(timerDBItem);
+                            TimerServiceManager.SaveTimerToDatabase(timerDBItem);
+
+                            if (timerListAdaptor != null)
+                            {
+                                timerListAdaptor.ContentChanged();
+                            }
+
                             // Save timer to database
-                            timerList.SaveTimerToDatabase(timerDBItem);
+                            //timerList.SaveTimerToDatabase(timerDBItem);
 
-                            timerList.AddTimerToListView(timerDBItem, start);
+                                //timerList.AddTimerToListView(timerDBItem, start);
 
-                            timerList.SortTimersByActiveAndTimeLeft();
+                                //timerList.SortTimersByActiveAndTimeLeft();
+                                // TODO: 
                         }
                         break;
                     }
@@ -212,8 +254,9 @@ namespace TimerAppDroid
                     {
                         if (resultCode == Result.Ok)
                         {
-                            timerList.SortTimersByActiveAndTimeLeft();
-                            timerList.SaveTimersToDatabase();
+                            //timerList.SortTimersByActiveAndTimeLeft();
+                            //timerList.SaveTimersToDatabase();
+                            // TODO: 
                         }
                         break;
                     }
