@@ -59,12 +59,12 @@ namespace TimerAppDroid
             var timerService = TimerServiceManager.Instance[position];
 
             var timerTextView = view.FindViewById<TextView>(TimerListItemView.timerTextId);
-            timerTextView.Text = timerService.ToString();
+            //timerTextView.Text = timerService.ToString();
 
             var alarmNameTextView = view.FindViewById<TextView>(TimerListItemView.alarmNameId);
             alarmNameTextView.Text = timerService.GetState().alarmName;
             
-            view.setUpdateDisplayEventHandler(position, delegate {
+            view.setUpdateDisplayEventHandler(timerService, delegate {
                 string timerString = timerService.ToString();
                 bool isElapsed = timerService.IsElapsed();
                 bool isStarted = timerService.IsStarted();
@@ -89,6 +89,7 @@ namespace TimerAppDroid
                     }
                 });
             });
+            timerService.ForceDisplayTimeChangedEvent();
 
             return view;
         }

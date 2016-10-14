@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using TimerAppShared;
 
 namespace TimerAppDroid
 {
@@ -21,7 +22,7 @@ namespace TimerAppDroid
         public const int alarmNameId = 2;
 
         EventHandler updateDisplayEventHandler;
-        int listPosition = -1;
+        TimerService timerService;
 
         public TimerListItemView(Context context, IAttributeSet attrs) :
             base(context, attrs)
@@ -75,19 +76,19 @@ namespace TimerAppDroid
         {
             if (updateDisplayEventHandler != null)
             {
-                TimerServiceManager.Instance[listPosition].DisplayTimeChanged -= updateDisplayEventHandler;
+                timerService.DisplayTimeChanged -= updateDisplayEventHandler;
                 updateDisplayEventHandler = null;
-                listPosition = -1;
+                timerService = null;
             }
         }
 
-        public void setUpdateDisplayEventHandler(int position, EventHandler eventHandler)
+        public void setUpdateDisplayEventHandler(TimerService timerService, EventHandler eventHandler)
         {
             clearUpdateDisplayEventHandler();
 
-            listPosition = position;
+            this.timerService = timerService;
             updateDisplayEventHandler = eventHandler;
-            TimerServiceManager.Instance[position].DisplayTimeChanged += eventHandler;
+            this.timerService.DisplayTimeChanged += eventHandler;
         }
     }
 }

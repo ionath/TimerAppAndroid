@@ -34,6 +34,11 @@ namespace TimerAppShared
             }
         }
 
+        public void ForceDisplayTimeChangedEvent()
+        {
+            OnDisplayTimeChanged(EventArgs.Empty);
+        }
+
         public TimerService()
         {
             //state.timeStart = DateTime.Now;
