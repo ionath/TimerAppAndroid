@@ -205,6 +205,13 @@ namespace TimerAppDroid
             var listView = sender as ListView;
             var t = TimerServiceManager.Instance[e.Position];
             Android.Widget.Toast.MakeText(this, t.GetState().alarmName, Android.Widget.ToastLength.Short).Show();
+            
+            var listItemView = e.View as TimerListItemView;
+            if (listItemView != null)
+            {
+                // Toggle controls enabled
+                listItemView.ControlsLayout.Enabled = !listItemView.ControlsLayout.Enabled;
+            }
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
