@@ -24,7 +24,7 @@ namespace TimerAppDroid
                 return controlsLayout;
             }
         }
-
+        Button pauseButton;
 
         Context context;
 
@@ -38,17 +38,17 @@ namespace TimerAppDroid
             base(context, attrs)
         {
             this.context = context;
-            Initialize();
+            initialize();
         }
 
         public TimerListItemView(Context context, IAttributeSet attrs, int defStyle) :
             base(context, attrs, defStyle)
         {
             this.context = context;
-            Initialize();
+            initialize();
         }
 
-        private void Initialize()
+        private void initialize()
         {
             this.Orientation = Orientation.Vertical;
 
@@ -97,14 +97,7 @@ namespace TimerAppDroid
             };
 
             this.AddView(timerLayout);
-
-            // Get string resources
-            string pauseString = context.Resources.GetString(Resource.String.Pause);
-            string resetString = context.Resources.GetString(Resource.String.Reset);
-            string deleteString = context.Resources.GetString(Resource.String.Delete);
-            string startString = context.Resources.GetString(Resource.String.Start);
-            string editString = context.Resources.GetString(Resource.String.Edit);
-
+            
             // Test controls
             controlsLayout = new LinearLayout(context);
             controlsLayout.Orientation = Android.Widget.Orientation.Horizontal;
@@ -112,21 +105,29 @@ namespace TimerAppDroid
 
             this.AddView(controlsLayout);
 
-            Button pauseButton = new Button(context);
+            // Pause Button
+            pauseButton = new Button(context);
             ViewGroup.LayoutParams buttonParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
             pauseButton.LayoutParameters = buttonParams;
-            //if (startTimerNow || timerDBItem.running)
-            if (true)
-            {
-                pauseButton.Text = pauseString;
-            }
-            //else
-            //{
-            //    pauseButton.Text = startString;
-            //}
+            pauseButton.Text = AppStrings.PauseString;
             controlsLayout.AddView(pauseButton);
 
             collapseControls();
+        }
+
+        public void updatePauseButtonState()
+        {
+            if (timerService != null)
+            {
+                if (timerService.IsRunning())
+                {
+                    pauseButton.Text = AppStrings.PauseString;
+                }
+                else
+                {
+                    pauseButton.Text = AppStrings.StartString;
+                }
+            }
         }
 
         public void expandControls()
@@ -151,13 +152,15 @@ namespace TimerAppDroid
             }
         }
 
-        public void setUpdateDisplayEventHandler(TimerService timerService, EventHandler eventHandler)
+        public void updateViewForTimer(TimerService timerService, EventHandler eventHandler)
         {
             clearUpdateDisplayEventHandler();
 
             this.timerService = timerService;
             updateDisplayEventHandler = eventHandler;
             this.timerService.DisplayTimeChanged += eventHandler;
+
+            updatePauseButtonState();
         }
     }
 }

@@ -64,7 +64,7 @@ namespace TimerAppDroid
             var alarmNameTextView = view.FindViewById<TextView>(TimerListItemView.alarmNameId);
             alarmNameTextView.Text = timerService.GetState().alarmName;
             
-            view.setUpdateDisplayEventHandler(timerService, delegate {
+            view.updateViewForTimer(timerService, delegate {
                 string timerString = timerService.ToString();
                 bool isElapsed = timerService.IsElapsed();
                 bool isStarted = timerService.IsStarted();

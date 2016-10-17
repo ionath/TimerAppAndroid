@@ -81,6 +81,9 @@ namespace TimerAppDroid
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            // Load string resources
+            AppStrings.updateStrings(this);
+
             // Test tab button
             this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             var tab = this.ActionBar.NewTab();
