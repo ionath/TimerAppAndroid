@@ -27,6 +27,7 @@ namespace TimerAppDroid
         Button pauseButton;
 
         Context context;
+        TimerListAdaptor timerListAdaptor;
 
         public const int timerTextId = 1;
         public const int alarmNameId = 2;
@@ -34,22 +35,24 @@ namespace TimerAppDroid
         EventHandler updateDisplayEventHandler;
         TimerService timerService;
 
-        public TimerListItemView(Context context, IAttributeSet attrs) :
+        public TimerListItemView(Context context, TimerListAdaptor tla, IAttributeSet attrs) :
             base(context, attrs)
         {
             this.context = context;
-            initialize();
+            initialize(tla);
         }
 
-        public TimerListItemView(Context context, IAttributeSet attrs, int defStyle) :
+        public TimerListItemView(Context context, TimerListAdaptor tla, IAttributeSet attrs, int defStyle) :
             base(context, attrs, defStyle)
         {
             this.context = context;
-            initialize();
+            initialize(tla);
         }
 
-        private void initialize()
+        private void initialize(TimerListAdaptor timerListAdaptor)
         {
+            this.timerListAdaptor = timerListAdaptor;
+
             this.Orientation = Orientation.Vertical;
 
             // Timer Layout
@@ -87,11 +90,13 @@ namespace TimerAppDroid
                 {
                     if (ControlsLayout.Enabled)
                     {
-                        collapseControls();
+                        //collapseControls();
+                        timerListAdaptor.CollapseItem(this);
                     }
                     else
                     {
-                        expandControls();
+                        //expandControls();
+                        timerListAdaptor.ExpandItem(this);
                     }
                 }
             };

@@ -14,9 +14,11 @@ using TimerAppShared;
 
 namespace TimerAppDroid
 {
-    class TimerListAdaptor : BaseAdapter<TimerService>
+    public class TimerListAdaptor : BaseAdapter<TimerService>
     {
         Activity context;
+
+        TimerListItemView expandedView;
 
         public TimerListAdaptor(Activity context) : base()
         {
@@ -54,7 +56,7 @@ namespace TimerAppDroid
             TimerListItemView view = (TimerListItemView)convertView;
             if (view == null)
             {
-                view = new TimerListItemView(context, null);
+                view = new TimerListItemView(context, this, null);
             }
             var timerService = TimerServiceManager.Instance[position];
 
@@ -92,6 +94,26 @@ namespace TimerAppDroid
             timerService.ForceDisplayTimeChangedEvent();
 
             return view;
+        }
+
+        public void ExpandItem(TimerListItemView expandView)
+        {
+            // Collapse previous expanded view and expand given view
+            if (expandedView != null)
+            {
+                expandedView.collapseControls();
+            }
+            expandedView = expandView;
+            expandView.expandControls();
+        }
+
+        public void CollapseItem(TimerListItemView collapseView)
+        {
+            if (expandedView == collapseView)
+            {
+                expandedView = null;
+            }
+            collapseView.collapseControls();
         }
     }
 }
