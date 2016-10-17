@@ -18,7 +18,9 @@ namespace TimerAppDroid
     {
         Activity context;
 
+        // Expanded view
         TimerListItemView expandedView;
+        TimerService expandedViewTimerService;
 
         public TimerListAdaptor(Activity context) : base()
         {
@@ -98,6 +100,15 @@ namespace TimerAppDroid
             });
             timerService.ForceDisplayTimeChangedEvent();
 
+            if (timerService == expandedViewTimerService)
+            {
+                ExpandItem(view);
+            }
+            else
+            {
+                CollapseItem(view);
+            }
+
             return view;
         }
 
@@ -109,6 +120,7 @@ namespace TimerAppDroid
                 expandedView.collapseControls();
             }
             expandedView = expandView;
+            expandedViewTimerService = expandView.timerService;
             expandView.expandControls();
         }
 

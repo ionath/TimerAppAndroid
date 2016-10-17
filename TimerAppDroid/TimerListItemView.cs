@@ -33,7 +33,7 @@ namespace TimerAppDroid
         public const int alarmNameId = 2;
 
         EventHandler updateDisplayEventHandler;
-        TimerService timerService;
+        public TimerService timerService { get; private set; }
 
         public TimerListItemView(Context context, TimerListAdaptor tla, IAttributeSet attrs) :
             base(context, attrs)
