@@ -102,6 +102,7 @@ namespace TimerAppDroid
             
             // Load timers
             TimerServiceManager.LoadTimersFromDatabase();
+            TimerServiceManager.SortTimersByActiveAndTimeLeft();
             
             timerListView = FindViewById<ListView>(Resource.Id.timerListView);
             if (timerListView != null)

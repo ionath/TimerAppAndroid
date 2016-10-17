@@ -159,12 +159,7 @@ namespace TimerAppDroid
             timerService.notificationAdaptor = AndroidNotificationManager.GetAdaptor();
 
             instance.timerServices.Add(timerService);
-
-            //if (timerDBItem.running)
-            //{
-            //    timerService.Start();
-            //}
-
+            
             instance.OnListModified(EventArgs.Empty);
 
             return timerService;
@@ -193,7 +188,26 @@ namespace TimerAppDroid
 
         static public void SortTimersByActiveAndTimeLeft()
         {
-            //
+            instance.timerServices.Sort((t1, t2) =>
+            {
+                // primary sort by active
+                int isStarted1 = t1.IsStarted() ? 0 : 1;
+                int isStartet2 = t2.IsStarted() ? 0 : 1;
+                if (isStarted1 < isStartet2)
+                    return -1;
+                else if (isStarted1 > isStartet2)
+                    return 1;
+
+                // secondary sort by time left
+                double timeLeft1 = t1.GetTimeLeft();
+                double timeleft2 = t2.GetTimeLeft();
+                if (timeLeft1 < timeleft2)
+                    return -1;
+                else if (timeLeft1 > timeleft2)
+                    return 1;
+                else return 0;
+            });
+            
             instance.OnListModified(EventArgs.Empty);
         }
     }
