@@ -116,6 +116,27 @@ namespace TimerAppDroid
             controlsLayout.AddView(pauseButton);
             pauseButton.Click += PauseButton_Click;
 
+            // Reset Button
+            Button resetButton = new Button(context);
+            resetButton.LayoutParameters = buttonParams;
+            resetButton.Text = AppStrings.ResetString;
+            resetButton.Click += ResetButton_Click;
+            controlsLayout.AddView(resetButton);
+
+            // Delete Button
+            Button deleteButton = new Button(context);
+            deleteButton.LayoutParameters = buttonParams;
+            deleteButton.Text = AppStrings.DeleteString;
+            deleteButton.Click += DeleteButton_Click;
+            controlsLayout.AddView(deleteButton);
+
+            // Edit Button
+            Button editButton = new Button(context);
+            editButton.LayoutParameters = buttonParams;
+            editButton.Text = AppStrings.EditString;
+            editButton.Click += EditButton_Click;
+            controlsLayout.AddView(editButton);
+
             collapseControls();
         }
 
@@ -154,7 +175,48 @@ namespace TimerAppDroid
 
             TimerServiceManager.SaveTimersToDatabase();
         }
-        
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            if (timerService != null)
+            {
+                timerService.Reset();
+                if (timerService.IsRunning())
+                {
+                    pauseButton.Text = AppStrings.PauseString;
+                }
+                else
+                {
+                    pauseButton.Text = AppStrings.StartString;
+                }
+                timerListAdaptor.CollapseItem(this);
+                TimerServiceManager.SortTimersByActiveAndTimeLeft();
+
+                TimerServiceManager.SaveTimersToDatabase();
+            }
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            TimerServiceManager.DeleteTimerService(timerService);
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (timerService != null)
+            {
+                // Show timer editor
+                var intent = new Intent(context, typeof(TimerEditorActivity));
+                intent.PutExtra("id", timerService.GetState().id);
+                var activity = context as Activity;
+                if (activity != null)
+                {
+                    activity.StartActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_TIMER);
+                }
+
+            }
+        }
+
         public void expandControls()
         {
             ControlsLayout.Enabled = true;

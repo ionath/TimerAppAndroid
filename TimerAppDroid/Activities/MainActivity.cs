@@ -99,22 +99,8 @@ namespace TimerAppDroid
             // Initialise Notification manager
             AndroidNotificationManager.Initialize(this);
             notificationAdaptor = AndroidNotificationManager.GetAdaptor();
-
-            //// Create timer list
-            //LinearLayout timerListLayout = FindViewById<LinearLayout>(Resource.Id.timerLayout);
-            //timerList = new TimerList(this, timerListLayout);
-
-            //// Load saved timers
-            //timerList.LoadTimersFromDatabase();
-            //timerList.SortTimersByActiveAndTimeLeft();
-
-            //var testTimerDBItem = new TimerDBItem();
-            //testTimerDBItem.duration = 60;
-            //testTimerDBItem.timeLeft = testTimerDBItem.duration;
-            //testTimerDBItem.alarmName = "Test Data";
-
-            //TimerServiceManager.NewTimerService(testTimerDBItem);
-
+            
+            // Load timers
             TimerServiceManager.LoadTimersFromDatabase();
             
             timerListView = FindViewById<ListView>(Resource.Id.timerListView);
@@ -245,10 +231,10 @@ namespace TimerAppDroid
                             var timerService = TimerServiceManager.NewTimerService(timerDBItem);
                             TimerServiceManager.SaveTimerToDatabase(timerDBItem);
 
-                            if (timerListAdaptor != null)
-                            {
-                                timerListAdaptor.ContentChanged();
-                            }
+                            //if (timerListAdaptor != null)
+                            //{
+                            //    timerListAdaptor.ContentChanged();
+                            //}
 
                             // Save timer to database
                             //timerList.SaveTimerToDatabase(timerDBItem);

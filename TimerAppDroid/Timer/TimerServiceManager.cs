@@ -24,12 +24,20 @@ namespace TimerAppDroid
         
         string dbPath;
 
+        // Event handling
+        public static event EventHandler ListModified;
+
         private TimerServiceManager()
         {
             // Get database path
             dbPath = Path.Combine(
                 System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
                 "database.db3");
+        }
+
+        protected virtual void OnListModified(EventArgs e)
+        {
+            ListModified?.Invoke(this, e);
         }
 
         static public int Count
@@ -73,6 +81,8 @@ namespace TimerAppDroid
                     }
                 }
             }
+
+            instance.OnListModified(EventArgs.Empty);
         }
 
         static public void SaveTimersToDatabase()
@@ -89,11 +99,11 @@ namespace TimerAppDroid
                     TimerState timerState = timerService.GetState();
 
                     var existingDBItem = db.Find<TimerDBItem>(timerState.id);
-                    if (existingDBItem == null)
-                    {
-                        existingDBItem = new TimerDBItem();
-                        db.Insert(existingDBItem);
-                    }
+                    //if (existingDBItem == null)
+                    //{
+                    //    existingDBItem = new TimerDBItem();
+                    //    db.Insert(existingDBItem);
+                    //}
                     if (existingDBItem != null)
                     {
                         existingDBItem.alarmName = timerState.alarmName;
@@ -101,6 +111,7 @@ namespace TimerAppDroid
                         existingDBItem.timeLeft = timerState.timeLeft;
                         existingDBItem.timeStart = timerState.timeStart;
                         existingDBItem.running = timerState.flags.GetBit(TimerState.RUNNING_BIT);
+                        existingDBItem.started = timerState.flags.GetBit(TimerState.STARTED_BIT);
 
                         db.Update(existingDBItem);
                     }
@@ -128,19 +139,33 @@ namespace TimerAppDroid
             }
         }
 
+        static void DeleteTimerFromDatabase(TimerService timerService)
+        {
+            if (timerService != null)
+            {
+                object locker = new object();
+                lock (locker)
+                {
+                    var db = new SQLiteConnection(instance.dbPath);
+                    db.Delete<TimerDBItem>(timerService.GetState().id);
+                }
+            }
+        }
+
 
         static public TimerService NewTimerService(TimerDBItem timerDBItem)
         {
-            TimerService timerService = new TimerService(timerDBItem.Id, timerDBItem.duration, timerDBItem.timeLeft,
-                timerDBItem.alarmName, timerDBItem.timeStart, timerDBItem.running);
+            TimerService timerService = new TimerService(timerDBItem);
             timerService.notificationAdaptor = AndroidNotificationManager.GetAdaptor();
 
             instance.timerServices.Add(timerService);
 
-            if (timerDBItem.running)
-            {
-                timerService.Start();
-            }
+            //if (timerDBItem.running)
+            //{
+            //    timerService.Start();
+            //}
+
+            instance.OnListModified(EventArgs.Empty);
 
             return timerService;
         }
@@ -149,6 +174,9 @@ namespace TimerAppDroid
         {
             instance.timerServices.Remove(timerService);
             timerService.Delete();
+            DeleteTimerFromDatabase(timerService);
+
+            instance.OnListModified(EventArgs.Empty);
         }
 
         static public TimerService GetTimerServiceWithId(int id)
@@ -165,7 +193,8 @@ namespace TimerAppDroid
 
         static public void SortTimersByActiveAndTimeLeft()
         {
-
+            //
+            instance.OnListModified(EventArgs.Empty);
         }
     }
 }

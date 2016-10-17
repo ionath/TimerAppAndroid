@@ -23,6 +23,11 @@ namespace TimerAppDroid
         public TimerListAdaptor(Activity context) : base()
         {
             this.context = context;
+
+            TimerServiceManager.ListModified += delegate
+            {
+                ContentChanged();
+            };
         }
 
         public void ContentChanged()

@@ -16,5 +16,6 @@ namespace TimerAppShared
 
         public string alarmName { get; set; }
         public bool running { get; set; }
+        public bool started { get; set; }
     }
 }

@@ -27,11 +27,7 @@ namespace TimerAppShared
             // TODO: This should be done using the event and adding a delegate
             //timerAdaptor.UpdateDisplay();
 
-            EventHandler handler = DisplayTimeChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            DisplayTimeChanged?.Invoke(this, e);
         }
 
         public void ForceDisplayTimeChangedEvent()
@@ -46,37 +42,38 @@ namespace TimerAppShared
             state = new TimerState(0, DateTime.Now, 0, 0, new BitField(0), "");
         }
 
-        public TimerService(int id, long _duration, double _timeLeft, string alarmName, DateTime startTime, bool alreadyRunning)
+        //public TimerService(int id, long _duration, double _timeLeft, string alarmName, DateTime startTime, bool alreadyRunning)
+        public TimerService(TimerDBItem timerDBItem)
         {
             BitField flags = new BitField();
-            state = new TimerState(id, startTime, _duration, _timeLeft, flags, alarmName);
+            state = new TimerState(timerDBItem.Id, timerDBItem.timeStart, timerDBItem.duration, timerDBItem.timeLeft, flags, timerDBItem.alarmName);
 
-            if (_timeLeft < _duration)
+            if (timerDBItem.started)
             {
                 state.flags.SetBits(TimerState.STARTED_BIT);
             }
-            if (alreadyRunning)
+            if (timerDBItem.running)
             {
                 state.flags.SetBits(TimerState.STARTED_BIT|TimerState.RUNNING_BIT);
             }
-            if (calcSecondsRemaining() < 0)
+            if (timerDBItem.started && calcSecondsRemaining() < 0)
             {
                 state.flags.SetBits(TimerState.ELAPSED_BIT);
             }
 
-            if (alreadyRunning)
+            if (timerDBItem.running)
             {
                 runTask();
             }
         }
 
-        public TimerService(int id, int hours, int minutes, int seconds, string alarmName)
-        {
-            //timeStart = DateTime.Now;
-            long duration = 3600 * hours + 60 * minutes + seconds;
-            //timeLeft = duration;
-            state = new TimerState(id, DateTime.Now, duration, duration, new BitField(0), alarmName);
-        }
+        //public TimerService(int id, int hours, int minutes, int seconds, string alarmName)
+        //{
+        //    //timeStart = DateTime.Now;
+        //    long duration = 3600 * hours + 60 * minutes + seconds;
+        //    //timeLeft = duration;
+        //    state = new TimerState(id, DateTime.Now, duration, duration, new BitField(0), alarmName);
+        //}
 
         public void SetState(long duration, string alarmName)
         {
