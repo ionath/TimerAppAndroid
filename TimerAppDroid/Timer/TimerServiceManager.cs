@@ -88,7 +88,12 @@ namespace TimerAppDroid
                 {
                     TimerState timerState = timerService.GetState();
 
-                    var existingDBItem = db.Get<TimerDBItem>(timerState.id);
+                    var existingDBItem = db.Find<TimerDBItem>(timerState.id);
+                    if (existingDBItem == null)
+                    {
+                        existingDBItem = new TimerDBItem();
+                        db.Insert(existingDBItem);
+                    }
                     if (existingDBItem != null)
                     {
                         existingDBItem.alarmName = timerState.alarmName;
@@ -156,6 +161,11 @@ namespace TimerAppDroid
                 }
             }
             return null;
+        }
+
+        static public void SortTimersByActiveAndTimeLeft()
+        {
+
         }
     }
 }

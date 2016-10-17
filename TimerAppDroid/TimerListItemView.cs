@@ -90,12 +90,10 @@ namespace TimerAppDroid
                 {
                     if (ControlsLayout.Enabled)
                     {
-                        //collapseControls();
                         timerListAdaptor.CollapseItem(this);
                     }
                     else
                     {
-                        //expandControls();
                         timerListAdaptor.ExpandItem(this);
                     }
                 }
@@ -116,6 +114,7 @@ namespace TimerAppDroid
             pauseButton.LayoutParameters = buttonParams;
             pauseButton.Text = AppStrings.PauseString;
             controlsLayout.AddView(pauseButton);
+            pauseButton.Click += PauseButton_Click;
 
             collapseControls();
         }
@@ -135,6 +134,27 @@ namespace TimerAppDroid
             }
         }
 
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            if (timerService != null)
+            {
+                if (timerService.IsRunning())
+                {
+                    timerService.Stop();
+                    pauseButton.Text = AppStrings.StartString;
+                }
+                else
+                {
+                    timerService.Start();
+                    pauseButton.Text = AppStrings.PauseString;
+
+                    TimerServiceManager.SortTimersByActiveAndTimeLeft();
+                }
+            }
+
+            TimerServiceManager.SaveTimersToDatabase();
+        }
+        
         public void expandControls()
         {
             ControlsLayout.Enabled = true;
