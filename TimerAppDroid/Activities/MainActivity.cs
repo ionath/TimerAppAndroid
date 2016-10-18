@@ -254,6 +254,8 @@ namespace TimerAppDroid
                         {
                             //timerList.SortTimersByActiveAndTimeLeft();
                             //timerList.SaveTimersToDatabase();
+                            TimerServiceManager.SortTimersByActiveAndTimeLeft();
+                            TimerServiceManager.SaveTimersToDatabase();
                             // TODO: 
                         }
                         break;
