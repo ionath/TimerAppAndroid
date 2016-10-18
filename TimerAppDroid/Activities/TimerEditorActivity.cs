@@ -286,18 +286,24 @@ namespace TimerAppDroid
                 Finish();
             };
 
-            hourText.Click += delegate
-            {
-                updateSelected(eSlot.HOUR);
-            };
-            minuteText.Click += delegate
-            {
-                updateSelected(eSlot.MINUTE);
-            };
-            secondText.Click += delegate
-            {
-                updateSelected(eSlot.SECOND);
-            };
+            //hourText.Click += delegate
+            //{
+            //    //updateSelected(eSlot.HOUR);
+            //};
+            hourText.Clickable = true;
+            hourText.FocusChange += HourText_FocusChange;
+            //minuteText.Click += delegate
+            //{
+            //    //updateSelected(eSlot.MINUTE);
+            //};
+            minuteText.Clickable = true;
+            minuteText.FocusChange += MinuteText_FocusChange;
+            //secondText.Click += delegate
+            //{
+            //    //updateSelected(eSlot.SECOND);
+            //};
+            secondText.Clickable = true;
+            secondText.FocusChange += SecondText_FocusChange;
 
             alarmName = editAlarmName.Text;
             editAlarmName.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
@@ -306,5 +312,30 @@ namespace TimerAppDroid
 
             };
         }
+
+        private void HourText_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            if (e.HasFocus)
+            {
+                updateSelected(eSlot.HOUR);
+            }
+        }
+
+        private void MinuteText_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            if (e.HasFocus)
+            {
+                updateSelected(eSlot.MINUTE);
+            }
+        }
+
+        private void SecondText_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            if (e.HasFocus)
+            {
+                updateSelected(eSlot.SECOND);
+            }
+        }
+
     }
 }
