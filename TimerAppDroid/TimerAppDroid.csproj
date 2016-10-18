@@ -61,7 +61,6 @@
     <Compile Include="AppStrings.cs" />
     <Compile Include="TimerListAdaptor.cs" />
     <Compile Include="TimerListItemView.cs" />
-    <Compile Include="Timer\AndroidTimerMVAdaptor.cs" />
     <Compile Include="Timer\AndroidTimerService.cs" />
     <Compile Include="GenerateIds.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="TextViewHelper.cs" />
     <Compile Include="TimerAppStatus.cs" />
     <Compile Include="Activities\TimerEditorActivity.cs" />
-    <Compile Include="Timer\TimerList.cs" />
     <Compile Include="Timer\TimerServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>

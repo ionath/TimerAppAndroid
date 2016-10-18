@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)BitField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotificationAdaptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimerDBItems.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TimerMVAdaptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimerState.cs" />
   </ItemGroup>
