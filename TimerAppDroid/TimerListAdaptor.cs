@@ -71,7 +71,7 @@ namespace TimerAppDroid
             //timerTextView.Text = timerService.ToString();
 
             var alarmNameTextView = view.FindViewById<TextView>(TimerListItemView.alarmNameId);
-            alarmNameTextView.Text = timerService.GetState().alarmName;
+            alarmNameTextView.Text = timerService.State.AlarmName;
             
             view.updateViewForTimer(timerService, delegate {
                 
@@ -96,7 +96,7 @@ namespace TimerAppDroid
                         alarmNameTextView.SetTextColor(MainActivity.inactiveColor);
                         timerTextView.SetTextColor(MainActivity.inactiveColor);
                     }
-                    alarmNameTextView.Text = view.timerService.GetState().alarmName;
+                    alarmNameTextView.Text = view.timerService.State.AlarmName;
                     timerTextView.Text = timerString;
                 });
             });

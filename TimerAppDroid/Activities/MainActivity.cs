@@ -194,7 +194,7 @@ namespace TimerAppDroid
         {
             var listView = sender as ListView;
             var t = TimerServiceManager.Instance[e.Position];
-            Android.Widget.Toast.MakeText(this, t.GetState().alarmName, Android.Widget.ToastLength.Short).Show();
+            Android.Widget.Toast.MakeText(this, t.State.AlarmName, Android.Widget.ToastLength.Short).Show();
             
             var listItemView = e.View as TimerListItemView;
             if (listItemView != null)
@@ -230,7 +230,7 @@ namespace TimerAppDroid
                             timerDBItem.running = start;
 
                             var timerService = TimerServiceManager.NewTimerService(timerDBItem);
-                            TimerServiceManager.SaveTimerToDatabase(timerDBItem);
+                            TimerServiceManager.SaveTimerToDatabase(timerService);
                             TimerServiceManager.SortTimersByActiveAndTimeLeft();
 
                             //if (timerListAdaptor != null)

@@ -96,9 +96,9 @@ namespace TimerAppDroid
 
                 foreach (var timerService in instance.timerServices)
                 {
-                    TimerState timerState = timerService.GetState();
+                    TimerState timerState = timerService.State;
 
-                    var existingDBItem = db.Find<TimerDBItem>(timerState.id);
+                    var existingDBItem = db.Find<TimerDBItem>(timerState.Id);
                     //if (existingDBItem == null)
                     //{
                     //    existingDBItem = new TimerDBItem();
@@ -106,12 +106,12 @@ namespace TimerAppDroid
                     //}
                     if (existingDBItem != null)
                     {
-                        existingDBItem.alarmName = timerState.alarmName;
-                        existingDBItem.duration = timerState.duration;
-                        existingDBItem.timeLeft = timerState.timeLeft;
-                        existingDBItem.timeStart = timerState.timeStart;
-                        existingDBItem.running = timerState.flags.GetBit(TimerState.RUNNING_BIT);
-                        existingDBItem.started = timerState.flags.GetBit(TimerState.STARTED_BIT);
+                        existingDBItem.alarmName = timerState.AlarmName;
+                        existingDBItem.duration = timerState.Duration;
+                        existingDBItem.timeLeft = timerState.TimeLeft;
+                        existingDBItem.timeStart = timerState.TimeStart;
+                        existingDBItem.running = timerState.Flags.GetBit(TimerState.RUNNING_BIT);
+                        existingDBItem.started = timerState.Flags.GetBit(TimerState.STARTED_BIT);
 
                         db.Update(existingDBItem);
                     }
@@ -120,14 +120,16 @@ namespace TimerAppDroid
             }
         }
 
-        static public void SaveTimerToDatabase(TimerDBItem timerDBItem)
+        static public void SaveTimerToDatabase(TimerService timerService)
         {
+            var timerDBItem = timerService.MakeDBItem();
+
             object locker = new object();
             lock (locker)
             {
                 var db = new SQLiteConnection(instance.dbPath);
                 db.CreateTable<TimerDBItem>();
-                var existingDBItem = db.Find<TimerDBItem>(timerDBItem.Id);
+                var existingDBItem = db.Find<TimerDBItem>(timerService.State.Id);
                 if (existingDBItem != null)
                 {
                     db.Update(timerDBItem);
@@ -135,6 +137,7 @@ namespace TimerAppDroid
                 else
                 {
                     db.Insert(timerDBItem);
+                    timerService.SetId(timerDBItem.Id);
                 }
             }
         }
@@ -147,7 +150,7 @@ namespace TimerAppDroid
                 lock (locker)
                 {
                     var db = new SQLiteConnection(instance.dbPath);
-                    db.Delete<TimerDBItem>(timerService.GetState().id);
+                    db.Delete<TimerDBItem>(timerService.State.Id);
                 }
             }
         }
@@ -178,7 +181,7 @@ namespace TimerAppDroid
         {
             foreach (TimerService timerService in instance.timerServices)
             {
-                if (timerService.GetState().id == id)
+                if (timerService.State.Id == id)
                 {
                     return timerService;
                 }

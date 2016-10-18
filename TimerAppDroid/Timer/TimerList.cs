@@ -63,12 +63,12 @@ namespace TimerAppDroid
             int index = 0;
             foreach (AndroidTimerMVAdapter adaptor in timerAdaptors)
             {
-                TimerState state = adaptor.timerService.GetState();
-                idArray[index] = state.id;
-                timeStartArray[index] = state.timeStart.ToBinary();
-                durationArray[index] = state.duration;
-                timeLeftArray[index] = state.timeLeft;
-                flagsArray[index] = state.flags.ToInt();
+                TimerState state = adaptor.timerService.State;
+                idArray[index] = state.Id;
+                timeStartArray[index] = state.TimeStart.ToBinary();
+                durationArray[index] = state.Duration;
+                timeLeftArray[index] = state.TimeLeft;
+                flagsArray[index] = state.Flags.ToInt();
                 index++;
             }
             bundle.PutLongArray("timers.TimeStart", timeStartArray);
@@ -106,16 +106,16 @@ namespace TimerAppDroid
 
                 foreach (AndroidTimerMVAdapter timerAdaptor in timerAdaptors)
                 {
-                    TimerState timerState = timerAdaptor.timerService.GetState();
+                    TimerState timerState = timerAdaptor.timerService.State;
 
-                    var existingDBItem = db.Get<TimerDBItem>(timerState.id);
+                    var existingDBItem = db.Get<TimerDBItem>(timerState.Id);
                     if (existingDBItem != null)
                     {
-                        existingDBItem.alarmName = timerState.alarmName;
-                        existingDBItem.duration = timerState.duration;
-                        existingDBItem.timeLeft = timerState.timeLeft;
-                        existingDBItem.timeStart = timerState.timeStart;
-                        existingDBItem.running = timerState.flags.GetBit(TimerState.RUNNING_BIT);
+                        existingDBItem.alarmName = timerState.AlarmName;
+                        existingDBItem.duration = timerState.Duration;
+                        existingDBItem.timeLeft = timerState.TimeLeft;
+                        existingDBItem.timeStart = timerState.TimeStart;
+                        existingDBItem.running = timerState.Flags.GetBit(TimerState.RUNNING_BIT);
 
                         db.Update(existingDBItem);
                     }
@@ -339,7 +339,7 @@ namespace TimerAppDroid
         {
             foreach (AndroidTimerMVAdapter timerAdaptor in timerAdaptors)
             {
-                if (timerAdaptor.timerService.GetState().id == id)
+                if (timerAdaptor.timerService.State.Id == id)
                 {
                     return timerAdaptor;
                 }

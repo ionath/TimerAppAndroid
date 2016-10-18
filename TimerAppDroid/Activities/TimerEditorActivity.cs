@@ -192,7 +192,7 @@ namespace TimerAppDroid
                 minuteText.Text = minute.ToString().PadLeft(2, '0');
                 secondText.Text = second.ToString().PadLeft(2, '0');
 
-                alarmName = timerService.GetState().alarmName;
+                alarmName = timerService.State.AlarmName;
                 editAlarmName.Text = alarmName;
 
                 if (timerService.IsStarted())

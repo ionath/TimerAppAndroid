@@ -44,7 +44,7 @@ namespace TimerAppDroid
                 PostBackgroundNotification(timerState);
             }
 
-            lastNotificationId = timerState.id;
+            lastNotificationId = timerState.Id;
         }
 
         public void CancelNotification(int notificationId)
@@ -62,8 +62,8 @@ namespace TimerAppDroid
         Intent CreateIntent(TimerState timerState)
         {
             Intent intent = new Intent(context, typeof(AlarmNotification));
-            intent.PutExtra("notificationId", timerState.id);
-            intent.PutExtra("alarmName", timerState.alarmName);
+            intent.PutExtra("notificationId", timerState.Id);
+            intent.PutExtra("alarmName", timerState.AlarmName);
             return intent;
         }
 
@@ -78,7 +78,7 @@ namespace TimerAppDroid
             //Android.Net.Uri defaultTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
             //Android.Net.Uri tone = Android.Net.Uri.Parse("android.resource://" + context.PackageName + "/Raw/" + Resource.Raw.elegant_ringtone);
             Notification.Builder builder = new Notification.Builder(context)
-                .SetContentTitle(timerState.alarmName)
+                .SetContentTitle(timerState.AlarmName)
                 .SetContentText("Timer has finished")
                 .SetContentIntent(pendingIntent)
                 .SetDefaults(NotificationDefaults.Vibrate | NotificationDefaults.Lights)
@@ -93,7 +93,7 @@ namespace TimerAppDroid
             //
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
 
-            notificationManager.Notify(timerState.id, notification);
+            notificationManager.Notify(timerState.Id, notification);
 
             PlayAlarmTone(timerState);
         }
@@ -115,7 +115,7 @@ namespace TimerAppDroid
             Task.Factory.StartNew(() =>
             {
                 System.Threading.Thread.Sleep(defaultAlarmTimeout * 1000);
-                if (timerState.id == lastNotificationId)
+                if (timerState.Id == lastNotificationId)
                 {
                     if (currentlyPlayingTone != null && currentlyPlayingTone.IsPlaying)
                     {

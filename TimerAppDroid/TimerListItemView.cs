@@ -207,7 +207,7 @@ namespace TimerAppDroid
             {
                 // Show timer editor
                 var intent = new Intent(context, typeof(TimerEditorActivity));
-                intent.PutExtra("id", timerService.GetState().id);
+                intent.PutExtra("id", timerService.State.Id);
                 var activity = context as Activity;
                 if (activity != null)
                 {

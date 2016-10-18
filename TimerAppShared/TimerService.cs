@@ -6,6 +6,13 @@ namespace TimerAppShared
     public class TimerService : Object
     {
         TimerState state;
+        public TimerState State
+        {
+            get
+            {
+                return state;
+            }
+        }
         //DateTime timeStart;
         //long duration;
         //double timeLeft = 0;
@@ -68,15 +75,15 @@ namespace TimerAppShared
 
             if (timerDBItem.started)
             {
-                state.flags.SetBits(TimerState.STARTED_BIT);
+                state.Flags.SetBits(TimerState.STARTED_BIT);
             }
             if (timerDBItem.running)
             {
-                state.flags.SetBits(TimerState.STARTED_BIT|TimerState.RUNNING_BIT);
+                state.Flags.SetBits(TimerState.STARTED_BIT|TimerState.RUNNING_BIT);
             }
             if (timerDBItem.started && calcSecondsRemaining() < 0)
             {
-                state.flags.SetBits(TimerState.ELAPSED_BIT);
+                state.Flags.SetBits(TimerState.ELAPSED_BIT);
             }
 
             if (timerDBItem.running)
@@ -95,20 +102,14 @@ namespace TimerAppShared
 
         public void SetState(long duration, string alarmName)
         {
-            state.duration = duration;
-            state.timeLeft = (double)duration;
-            state.alarmName = alarmName;
+            state.Duration = duration;
+            state.TimeLeft = (double)duration;
+            state.AlarmName = alarmName;
 
             //timerAdaptor.UpdateDisplay();
             OnDisplayTimeChanged(EventArgs.Empty);
         }
-
-        public TimerState GetState()
-        {
-            //return new TimerState(timeStart, duration, timeLeft, flags);
-            return state;
-        }
-
+        
         public static long CalcDuration(int hour, int minute, int second)
         {
             return (long)hour * 3600 + minute * 60 + second;
@@ -117,22 +118,35 @@ namespace TimerAppShared
         double calcSecondsRemaining()
         {
             DateTime timeNow = DateTime.Now;
-            TimeSpan timeDelta = timeNow.Subtract(state.timeStart);
-            return state.timeLeft - timeDelta.TotalSeconds;
+            TimeSpan timeDelta = timeNow.Subtract(state.TimeStart);
+            return state.TimeLeft - timeDelta.TotalSeconds;
+        }
+
+        public TimerDBItem MakeDBItem()
+        {
+            var timerDBItem = new TimerDBItem();
+            timerDBItem.alarmName = state.AlarmName;
+            timerDBItem.duration = state.Duration;
+            timerDBItem.timeLeft = state.TimeLeft;
+            timerDBItem.timeStart = state.TimeStart;
+            timerDBItem.running = state.Flags.GetBit(TimerState.RUNNING_BIT);
+            timerDBItem.started = state.Flags.GetBit(TimerState.STARTED_BIT);
+
+            return timerDBItem;
         }
 
         public double CalcSeconds()
         {
             double secondsRemaining = 0;
-            if (state.flags.GetBit(TimerState.RUNNING_BIT) || state.flags.GetBit(TimerState.ELAPSED_BIT))
+            if (state.Flags.GetBit(TimerState.RUNNING_BIT) || state.Flags.GetBit(TimerState.ELAPSED_BIT))
             {
                 secondsRemaining = calcSecondsRemaining();
                 if (secondsRemaining < 0)
                 {
                     secondsRemaining = -secondsRemaining;
-                    if (state.flags.GetBit(TimerState.ELAPSED_BIT) == false)
+                    if (state.Flags.GetBit(TimerState.ELAPSED_BIT) == false)
                     {
-                        state.flags.SetBits(TimerState.ELAPSED_BIT);
+                        state.Flags.SetBits(TimerState.ELAPSED_BIT);
                         // Trigger notification
                         PostNotification();
                     }
@@ -140,9 +154,14 @@ namespace TimerAppShared
             }
             else
             {
-                secondsRemaining = state.timeLeft;
+                secondsRemaining = state.TimeLeft;
             }
             return secondsRemaining;
+        }
+
+        public void SetId(int id)
+        {
+            state.Id = id;
         }
 
         public void PostNotification()
@@ -156,14 +175,14 @@ namespace TimerAppShared
         void runTask()
         {
             task = Task.Factory.StartNew(() => {
-                while (state.flags.GetBit(TimerState.RUNNING_BIT))
+                while (state.Flags.GetBit(TimerState.RUNNING_BIT))
                 {
                     //timerAdaptor.UpdateDisplay();
                     OnDisplayTimeChanged(EventArgs.Empty);
                     Updatecount++;
                     // Get milliseconds to next second completed
                     double secondsLeft = CalcSeconds();
-                    if (state.flags.GetBit(TimerState.ELAPSED_BIT) == false)
+                    if (state.Flags.GetBit(TimerState.ELAPSED_BIT) == false)
                     {
                         secondsLeft -= (long)secondsLeft;
                     }
@@ -184,10 +203,10 @@ namespace TimerAppShared
             if (IsRunning())
                 return;
 
-            state.flags.SetBits(TimerState.RUNNING_BIT | TimerState.STARTED_BIT);
+            state.Flags.SetBits(TimerState.RUNNING_BIT | TimerState.STARTED_BIT);
             //if (IsElapsed() == false)
             {
-                state.timeStart = DateTime.Now;
+                state.TimeStart = DateTime.Now;
             }
 
             runTask();
@@ -198,8 +217,8 @@ namespace TimerAppShared
 
         public void StartWithTime(DateTime startTime, double timeLeft)
         {
-            state.flags.SetBits(TimerState.RUNNING_BIT | TimerState.STARTED_BIT);
-            state.timeStart = startTime;
+            state.Flags.SetBits(TimerState.RUNNING_BIT | TimerState.STARTED_BIT);
+            state.TimeStart = startTime;
 
             runTask();
 
@@ -209,7 +228,7 @@ namespace TimerAppShared
 
         public double GetTimeLeft()
         {
-            return state.timeLeft;
+            return state.TimeLeft;
         }
 
         public void Stop()
@@ -217,29 +236,29 @@ namespace TimerAppShared
             //if (IsElapsed() == false)
             {
                 DateTime timeNow = DateTime.Now;
-                TimeSpan timeDelta = timeNow.Subtract(state.timeStart);
+                TimeSpan timeDelta = timeNow.Subtract(state.TimeStart);
 
-                state.timeLeft = state.timeLeft - timeDelta.TotalSeconds;
+                state.TimeLeft = state.TimeLeft - timeDelta.TotalSeconds;
                 //if (state.timeLeft < 0)
                 //{
                 //    state.timeLeft = 0;
                 //}
 
-                state.flags.ClearBits(TimerState.RUNNING_BIT);
+                state.Flags.ClearBits(TimerState.RUNNING_BIT);
             }
         }
 
         public void Reset()
         {
-            state.flags.ClearBits(TimerState.RUNNING_BIT | TimerState.ELAPSED_BIT | TimerState.STARTED_BIT);
-            state.timeLeft = state.duration;
+            state.Flags.ClearBits(TimerState.RUNNING_BIT | TimerState.ELAPSED_BIT | TimerState.STARTED_BIT);
+            state.TimeLeft = state.Duration;
             //timerAdaptor.UpdateDisplay();
             OnDisplayTimeChanged(EventArgs.Empty);
         }
 
         public void Delete()
         {
-            state.flags.ClearBits(TimerState.RUNNING_BIT);
+            state.Flags.ClearBits(TimerState.RUNNING_BIT);
         }
 
         static void CheckStatus(Object state)
@@ -294,17 +313,17 @@ namespace TimerAppShared
 
         public bool IsElapsed()
         {
-            return state.flags.GetBit(TimerState.ELAPSED_BIT);
+            return state.Flags.GetBit(TimerState.ELAPSED_BIT);
         }
 
         public bool IsRunning()
         {
-            return state.flags.GetBit(TimerState.RUNNING_BIT);
+            return state.Flags.GetBit(TimerState.RUNNING_BIT);
         }
 
         public bool IsStarted()
         {
-            return state.flags.GetBit(TimerState.STARTED_BIT);
+            return state.Flags.GetBit(TimerState.STARTED_BIT);
         }
     }
 }
