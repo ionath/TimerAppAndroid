@@ -66,7 +66,7 @@ namespace TimerAppDroid
                 view = new TimerListItemView(context, this, null);
             }
             var timerService = TimerServiceManager.Instance[position];
-
+            
             var timerTextView = view.FindViewById<TextView>(TimerListItemView.timerTextId);
             //timerTextView.Text = timerService.ToString();
 
@@ -74,16 +74,16 @@ namespace TimerAppDroid
             alarmNameTextView.Text = timerService.GetState().alarmName;
             
             view.updateViewForTimer(timerService, delegate {
-                string timerString = timerService.ToString();
-                bool isElapsed = timerService.IsElapsed();
-                bool isStarted = timerService.IsStarted();
-
+                
                 context.RunOnUiThread(() =>
                 {
-                    timerTextView.Text = timerString;
+                    string timerString = view.timerService.ToString();
+                    bool isElapsed = view.timerService.IsElapsed();
+                    bool isStarted = view.timerService.IsStarted();
+
                     if (isElapsed)
                     {
-                        alarmNameTextView.SetTextColor(MainActivity.defaultColor);
+                        alarmNameTextView.SetTextColor(MainActivity.elapsedColor);
                         timerTextView.SetTextColor(MainActivity.elapsedColor);
                     }
                     else if (isStarted)
@@ -93,9 +93,11 @@ namespace TimerAppDroid
                     }
                     else
                     {
-                        alarmNameTextView.SetTextColor(MainActivity.unactiveColor);
-                        timerTextView.SetTextColor(MainActivity.unactiveColor);
+                        alarmNameTextView.SetTextColor(MainActivity.inactiveColor);
+                        timerTextView.SetTextColor(MainActivity.inactiveColor);
                     }
+                    alarmNameTextView.Text = view.timerService.GetState().alarmName;
+                    timerTextView.Text = timerString;
                 });
             });
             timerService.ForceDisplayTimeChangedEvent();

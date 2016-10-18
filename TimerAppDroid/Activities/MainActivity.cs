@@ -32,7 +32,7 @@ namespace TimerAppDroid
 
         public static Android.Graphics.Color defaultColor = Android.Graphics.Color.White;
         public static Android.Graphics.Color elapsedColor = Android.Graphics.Color.Crimson;
-        public static Android.Graphics.Color unactiveColor = Android.Graphics.Color.Gray;
+        public static Android.Graphics.Color inactiveColor = Android.Graphics.Color.Gray;
 
         const int REQUEST_CODE_ADD_TIMER = 1;
         const int REQUEST_RINGTONE_PICKER = 2;

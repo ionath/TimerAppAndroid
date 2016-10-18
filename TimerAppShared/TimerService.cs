@@ -20,14 +20,32 @@ namespace TimerAppShared
         public int Updatecount { get; private set; }
 
         // event handling
-        public event EventHandler DisplayTimeChanged;
+        Object eventObjLock = new Object();
+        event EventHandler displayTimerChangedEvent;
+        public event EventHandler DisplayTimeChanged
+        {
+            add
+            {
+                lock (eventObjLock)
+                {
+                    displayTimerChangedEvent += value;
+                }
+            }
+            remove
+            {
+                lock (eventObjLock)
+                {
+                    displayTimerChangedEvent -= value;
+                }
+            }
+        }
 
         protected virtual void OnDisplayTimeChanged(EventArgs e)
         {
-            // TODO: This should be done using the event and adding a delegate
-            //timerAdaptor.UpdateDisplay();
-
-            DisplayTimeChanged?.Invoke(this, e);
+            lock (eventObjLock)
+            {
+                displayTimerChangedEvent?.Invoke(this, e);
+            }
         }
 
         public void ForceDisplayTimeChangedEvent()
