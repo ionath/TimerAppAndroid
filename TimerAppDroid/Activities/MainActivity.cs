@@ -231,6 +231,7 @@ namespace TimerAppDroid
 
                             var timerService = TimerServiceManager.NewTimerService(timerDBItem);
                             TimerServiceManager.SaveTimerToDatabase(timerDBItem);
+                            TimerServiceManager.SortTimersByActiveAndTimeLeft();
 
                             //if (timerListAdaptor != null)
                             //{
