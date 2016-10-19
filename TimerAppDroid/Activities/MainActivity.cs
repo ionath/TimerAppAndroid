@@ -52,25 +52,6 @@ namespace TimerAppDroid
             //timerList.saveToBundle(outState);
         }
         
-        class SampleTabFragment : Fragment
-        {
-            public override View OnCreateView(LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState)
-            {
-                base.OnCreateView(inflater, container, savedInstanceState);
-
-                var view = inflater.Inflate(
-                    Resource.Layout.sampleTab, container, false);
-
-                var sampleTextView =
-                    view.FindViewById<TextView>(Resource.Id.sampleTextView);
-                sampleTextView.Text = "sample fragment text";
-
-
-                return view;
-            }
-        }
-        
         [SecurityCritical]
         protected override void OnCreate(Bundle bundle)
         {
@@ -83,19 +64,7 @@ namespace TimerAppDroid
 
             // Load string resources
             AppStrings.updateStrings(this);
-
-            // Test tab button
-            this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            var tab = this.ActionBar.NewTab();
-            tab.SetText("Tab1");
-            tab.SetIcon(Resource.Drawable.notification_small);
-
-            tab.TabSelected += delegate (object sender, ActionBar.TabEventArgs e) {
-                e.FragmentTransaction.Add(Resource.Id.fragmentContainer,
-                    new SampleTabFragment());
-            };
-            ActionBar.AddTab(tab);
-
+            
             // Initialise Notification manager
             AndroidNotificationManager.Initialize(this);
             notificationAdaptor = AndroidNotificationManager.GetAdaptor();
