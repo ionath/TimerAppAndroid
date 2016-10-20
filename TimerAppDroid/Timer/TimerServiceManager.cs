@@ -159,7 +159,16 @@ namespace TimerAppDroid
         static public TimerService NewTimerService(TimerDBItem timerDBItem)
         {
             TimerService timerService = new TimerService(timerDBItem);
-            timerService.notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+            //timerService.notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+
+            timerService.TimerFinished += delegate
+            {
+                var notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+                if (notificationAdaptor != null)
+                {
+                    notificationAdaptor.PostNotification(timerService.State);
+                }
+            };
 
             instance.timerServices.Add(timerService);
             
