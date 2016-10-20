@@ -19,14 +19,18 @@ namespace TimerAppDroid
 {
     public class AndroidNotificationAdaptor : NotificationAdaptor
     {
-        MainActivity context;
+        Activity context;
         Ringtone currentlyPlayingTone;
         public int defaultAlarmTimeout { get; set; }
         public Android.Net.Uri AlarmTone { get; set; }
 
         int lastNotificationId = 0;
 
-        public AndroidNotificationAdaptor(MainActivity _context)
+        public int NotificationId { get; set; }
+        TimerService timerService;
+        Notification.Builder builder;
+
+        public AndroidNotificationAdaptor(Activity _context)
         {
             context = _context;
             AlarmTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
@@ -67,6 +71,40 @@ namespace TimerAppDroid
             return intent;
         }
 
+        public void CreateNotification(TimerService timerService)
+        {
+            NotificationId = timerService.State.Id;
+            this.timerService = timerService;
+
+            Intent intent = CreateIntent(timerService.State);
+
+            const int pendingIntentId = MainActivity.REQUEST_CODE_PENDING_INTENT;
+            PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
+
+            builder = new Notification.Builder(context)
+                .SetContentTitle(timerService.State.AlarmName)
+                .SetContentText(timerService.ToString())
+                .SetContentIntent(pendingIntent)
+                .SetSmallIcon(Resource.Drawable.notification_small);
+
+        }
+
+        public void UpdateBackgroundNotification()
+        {
+            builder.SetContentText(timerService.ToString());
+
+            Notification notification = builder.Build();
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                notification.Category = Notification.CategoryAlarm;
+            }
+
+            //
+            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+
+            notificationManager.Notify(NotificationId, notification);
+        }
+
         void PostBackgroundNotification(TimerState timerState)
         {
             Intent intent = CreateIntent(timerState);
@@ -101,7 +139,7 @@ namespace TimerAppDroid
         void PostForegroundNotification(TimerState timerState)
         {
             Intent intent = CreateIntent(timerState);
-            context.LaunchActivity(intent);
+            context.StartActivity(intent);
 
             PlayAlarmTone(timerState);
         }

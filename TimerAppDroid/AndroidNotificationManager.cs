@@ -19,8 +19,13 @@ namespace TimerAppDroid
 
         AndroidNotificationAdaptor adaptor;
 
+        Activity context;
+
+        Dictionary<int, AndroidNotificationAdaptor> adaptorMap = new Dictionary<int, AndroidNotificationAdaptor>();
+
         public static void Initialize(MainActivity context)
         {
+            instance.context = context;
             if (instance.adaptor == null)
             {
                 instance.adaptor = new AndroidNotificationAdaptor(context);
@@ -30,6 +35,23 @@ namespace TimerAppDroid
         public static AndroidNotificationAdaptor GetAdaptor()
         {
             return instance.adaptor;
+        }
+
+        public static void UpdateNotification(TimerService timerService)
+        {
+            var id = timerService.State.Id;
+            AndroidNotificationAdaptor adaptor = null;
+            if (instance.adaptorMap.ContainsKey(id) == false)
+            {
+                adaptor = new AndroidNotificationAdaptor(instance.context);
+                adaptor.CreateNotification(timerService);
+                instance.adaptorMap.Add(id, adaptor);
+            }
+            else
+            {
+                adaptor = instance.adaptorMap[id];
+            }
+            adaptor.UpdateBackgroundNotification();
         }
 
         public static void PostNotification(TimerState timerState)
