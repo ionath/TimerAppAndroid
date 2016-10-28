@@ -64,9 +64,10 @@ namespace TimerAppDroid
 
             // Load string resources
             AppStrings.updateStrings(this);
-            
+
             // Initialise Notification manager
-            AndroidNotificationManager.Initialize(this);
+            var defaultRingtone = RingtoneManager.GetRingtone(this, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+            AndroidNotificationManager.Initialize(this, defaultRingtone);
             notificationAdaptor = AndroidNotificationManager.GetAdaptor();
             
             // Load timers
@@ -87,7 +88,8 @@ namespace TimerAppDroid
             if (ringtoneString != null)
             {
                 Android.Net.Uri ringtoneUri = Android.Net.Uri.Parse(ringtoneString);
-                notificationAdaptor.AlarmTone = ringtoneUri;
+                var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
+                notificationAdaptor.AlarmTone = alarmTone;
             }
 
             if (bundle != null)
@@ -234,7 +236,8 @@ namespace TimerAppDroid
                         if (resultCode == Result.Ok)
                         {
                             Android.Net.Uri ringtoneUri = (Android.Net.Uri)data.GetParcelableExtra(RingtoneManager.ExtraRingtonePickedUri);
-                            notificationAdaptor.AlarmTone = ringtoneUri;
+                            var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
+                            notificationAdaptor.AlarmTone = alarmTone;
 
                             // Save ringtone in settings
                             var preferences = GetPreferences(FileCreationMode.Private);

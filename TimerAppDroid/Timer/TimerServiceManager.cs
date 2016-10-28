@@ -161,7 +161,7 @@ namespace TimerAppDroid
             TimerService timerService = new TimerService(timerDBItem);
             //timerService.notificationAdaptor = AndroidNotificationManager.GetAdaptor();
 
-            var notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+            //var notificationAdaptor = AndroidNotificationManager.GetAdaptor();
 
             // Timer display update event
             timerService.DisplayTimeChanged += delegate
@@ -179,10 +179,11 @@ namespace TimerAppDroid
             timerService.TimerFinished += delegate
             {
                 //var notificationAdaptor = AndroidNotificationManager.GetAdaptor();
-                if (notificationAdaptor != null)
-                {
-                    notificationAdaptor.PostNotification(timerService.State);
-                }
+                //if (notificationAdaptor != null)
+                //{
+                //    notificationAdaptor.PostNotification(timerService.State);
+                //}
+                AndroidNotificationManager.PostNotification(timerService.State);
             };
             timerService.TimerPaused += delegate
             {

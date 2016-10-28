@@ -20,9 +20,11 @@ namespace TimerAppDroid
     public class AndroidNotificationAdaptor : NotificationAdaptor
     {
         Activity context;
+        public Ringtone AlarmTone { get; set; }
+        NotificationManager notificationManager;
+
         Ringtone currentlyPlayingTone;
         public int defaultAlarmTimeout { get; set; }
-        public Android.Net.Uri AlarmTone { get; set; }
 
         int lastNotificationId = 0;
 
@@ -30,23 +32,18 @@ namespace TimerAppDroid
         TimerService timerService;
         Notification.Builder builder;
 
-        public AndroidNotificationAdaptor(Activity _context)
+        public AndroidNotificationAdaptor(Activity _context, Ringtone alarmTone, NotificationManager _notificationManager)
         {
             context = _context;
-            AlarmTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
+            //AlarmTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
+            AlarmTone = alarmTone;
+            notificationManager = _notificationManager;
             defaultAlarmTimeout = 30;
         }
         
         public void PostNotification(TimerState timerState)
         {
-            if (TimerAppStatus.GetAppState() == TimerAppStatus.STATE_ACTIVE)
-            {
-                PostForegroundNotification(timerState);
-            }
-            else
-            {
-                PostBackgroundNotification(timerState);
-            }
+            PostForegroundNotification(timerState);
 
             lastNotificationId = timerState.Id;
         }
@@ -58,7 +55,7 @@ namespace TimerAppDroid
                 StopAlarmTone();
             }
 
-            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             notificationManager.Cancel(notificationId);
         }
@@ -107,7 +104,7 @@ namespace TimerAppDroid
             }
 
             //
-            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             notificationManager.Notify(NotificationId, notification);
         }
@@ -136,7 +133,7 @@ namespace TimerAppDroid
             }
 
             //
-            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             notificationManager.Notify(timerState.Id, notification);
 
@@ -154,7 +151,7 @@ namespace TimerAppDroid
         void PlayAlarmTone(TimerState timerState)
         {
             StopAlarmTone();
-            currentlyPlayingTone = RingtoneManager.GetRingtone(context, AlarmTone);
+            currentlyPlayingTone = AlarmTone;
             currentlyPlayingTone.Play();
 
             Task.Factory.StartNew(() =>

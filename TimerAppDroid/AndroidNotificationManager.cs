@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using TimerAppShared;
+using Android.Media;
 
 namespace TimerAppDroid
 {
@@ -20,15 +21,20 @@ namespace TimerAppDroid
         AndroidNotificationAdaptor adaptor;
 
         Activity context;
+        Ringtone defaultTone;
+
+        NotificationManager notificationManager;
 
         Dictionary<int, AndroidNotificationAdaptor> adaptorMap = new Dictionary<int, AndroidNotificationAdaptor>();
 
-        public static void Initialize(MainActivity context)
+        public static void Initialize(MainActivity context, Ringtone defaultTone)
         {
             instance.context = context;
+            instance.defaultTone = defaultTone;
+            instance.notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
             if (instance.adaptor == null)
             {
-                instance.adaptor = new AndroidNotificationAdaptor(context);
+                instance.adaptor = new AndroidNotificationAdaptor(context, defaultTone, instance.notificationManager);
             }
         }
 
@@ -43,7 +49,7 @@ namespace TimerAppDroid
             AndroidNotificationAdaptor adaptor = null;
             if (instance.adaptorMap.ContainsKey(id) == false)
             {
-                adaptor = new AndroidNotificationAdaptor(instance.context);
+                adaptor = new AndroidNotificationAdaptor(instance.context, instance.defaultTone, instance.notificationManager);
                 adaptor.CreateNotification(timerService);
                 instance.adaptorMap.Add(id, adaptor);
             }
