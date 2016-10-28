@@ -170,7 +170,10 @@ namespace TimerAppDroid
                 //{
                 //    notificationAdaptor.PostNotification(timerService.State);
                 //}
-                AndroidNotificationManager.UpdateNotification(timerService);
+                if (timerService.IsRunning() && timerService.IsElapsed() == false)
+                {
+                    AndroidNotificationManager.UpdateNotification(timerService);
+                }
             };
             // Timer finished event
             timerService.TimerFinished += delegate
@@ -179,6 +182,13 @@ namespace TimerAppDroid
                 if (notificationAdaptor != null)
                 {
                     notificationAdaptor.PostNotification(timerService.State);
+                }
+            };
+            timerService.TimerPaused += delegate
+            {
+                if (timerService.IsRunning() == false)
+                {
+                    AndroidNotificationManager.CancelNotification(timerService);
                 }
             };
 

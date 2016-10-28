@@ -69,5 +69,15 @@ namespace TimerAppDroid
                 instance.adaptor.CancelNotification(notificationId);
             }
         }
+        public static void CancelNotification(TimerService timerService)
+        {
+            var id = timerService.State.Id;
+
+            if (instance.adaptorMap.ContainsKey(id))
+            {
+                var adaptor = instance.adaptorMap[id];
+                adaptor.CancelNotification();
+            }
+        }
     }
 }

@@ -63,6 +63,13 @@ namespace TimerAppDroid
             notificationManager.Cancel(notificationId);
         }
 
+        public void CancelNotification()
+        {
+            var id = timerService.State.Id;
+
+            CancelNotification(id);
+        }
+
         Intent CreateIntent(TimerState timerState)
         {
             Intent intent = new Intent(context, typeof(AlarmNotification));

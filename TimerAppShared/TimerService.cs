@@ -38,6 +38,7 @@ namespace TimerAppShared
             }
         }
         public event EventHandler TimerFinished;
+        public event EventHandler TimerPaused;
 
         protected virtual void OnDisplayTimeChanged(EventArgs e)
         {
@@ -50,6 +51,11 @@ namespace TimerAppShared
         protected virtual void OnTimerFinished(EventArgs e)
         {
             TimerFinished?.Invoke(this, e);
+        }
+
+        protected virtual void OnTimerPaused(EventArgs e)
+        {
+            TimerPaused?.Invoke(this, e);
         }
 
         public void ForceDisplayTimeChangedEvent()
@@ -223,6 +229,8 @@ namespace TimerAppShared
                 //}
 
                 state.Flags.ClearBits(TimerState.RUNNING_BIT);
+
+                OnTimerPaused(EventArgs.Empty);
             }
         }
 
