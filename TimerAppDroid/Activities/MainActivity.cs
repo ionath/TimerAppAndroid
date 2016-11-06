@@ -13,15 +13,20 @@ using System.IO;
 using SQLite;
 using System.Collections.Generic;
 using System.Security;
+using Android.Content.PM;
 
 namespace TimerAppDroid
 {
     [SecurityCritical]
-    [Activity(Name="com.chaostrend.timerapp", Label = "John's Timer", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Name="com.chaostrend.timerapp",
+        Label = "John's Timer",
+        MainLauncher = true,
+        LaunchMode = LaunchMode.SingleTask,
+        Icon = "@drawable/icon",
+        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : Activity
     {
-        // List of timers
-        //TimerList timerList;
+        bool firstLoad = true;
 
         ListView timerListView;
         TimerListAdaptor timerListAdaptor;
@@ -56,24 +61,39 @@ namespace TimerAppDroid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            
+            if (firstLoad)
+            {
+                // Load string resources
+                AppStrings.updateStrings(this);
+
+                // Initialise Notification manager
+                var defaultRingtone = RingtoneManager.GetRingtone(this, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+                AndroidNotificationManager.Initialize(this, defaultRingtone);
+                notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+
+                // Load timers
+                TimerServiceManager.LoadTimersFromDatabase();
+                TimerServiceManager.SortTimersByActiveAndTimeLeft();
+
+                // Load settings
+                var preferences = GetPreferences(FileCreationMode.Private);
+                string ringtoneString = preferences.GetString("ringtone", null);
+                if (ringtoneString != null)
+                {
+                    Android.Net.Uri ringtoneUri = Android.Net.Uri.Parse(ringtoneString);
+                    var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
+                    notificationAdaptor.AlarmTone = alarmTone;
+                }
+
+                firstLoad = false;
+            }
 
             TimerAppStatus.SetAppState(TimerAppStatus.STATE_ACTIVE);
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Load string resources
-            AppStrings.updateStrings(this);
-
-            // Initialise Notification manager
-            var defaultRingtone = RingtoneManager.GetRingtone(this, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
-            AndroidNotificationManager.Initialize(this, defaultRingtone);
-            notificationAdaptor = AndroidNotificationManager.GetAdaptor();
-            
-            // Load timers
-            TimerServiceManager.LoadTimersFromDatabase();
-            TimerServiceManager.SortTimersByActiveAndTimeLeft();
-            
             timerListView = FindViewById<ListView>(Resource.Id.timerListView);
             if (timerListView != null)
             {
@@ -82,16 +102,6 @@ namespace TimerAppDroid
                 timerListView.ItemClick += OnListItemClick;
             }
             
-            // Load settings
-            var preferences = GetPreferences(FileCreationMode.Private);
-            string ringtoneString = preferences.GetString("ringtone", null);
-            if (ringtoneString != null)
-            {
-                Android.Net.Uri ringtoneUri = Android.Net.Uri.Parse(ringtoneString);
-                var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
-                notificationAdaptor.AlarmTone = alarmTone;
-            }
-
             if (bundle != null)
             {
 

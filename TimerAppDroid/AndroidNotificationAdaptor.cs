@@ -80,7 +80,9 @@ namespace TimerAppDroid
             NotificationId = timerService.State.Id;
             this.timerService = timerService;
 
-            Intent intent = CreateIntent(timerService.State);
+            //Intent intent = CreateIntent(timerService.State);
+            Intent intent = new Intent(context, typeof(MainActivity));
+            intent.SetFlags(ActivityFlags.ReorderToFront);
 
             const int pendingIntentId = MainActivity.REQUEST_CODE_PENDING_INTENT;
             PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);

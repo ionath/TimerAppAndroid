@@ -76,8 +76,11 @@ namespace TimerAppDroid
                 {
                     foreach (var t in table)
                     {
-                        //AddTimerToListView(t, false);
-                        NewTimerService(t);
+                        // Check that timer with id doesn't already exists
+                        if (GetTimerServiceWithId(t.Id) == null)
+                        {
+                            NewTimerService(t);
+                        }
                     }
                 }
             }
