@@ -17,12 +17,6 @@
             android:layout_weight="1"
             android:id="@+id/SettingsButton" />
         <Button
-            android:text="Pause All"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/PauseAllButton" />
-        <Button
             android:text="Add Timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

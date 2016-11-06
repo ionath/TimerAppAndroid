@@ -24,7 +24,7 @@ namespace TimerAppDroid
         NotificationManager notificationManager;
 
         Ringtone currentlyPlayingTone;
-        public int defaultAlarmTimeout { get; set; }
+        public int DefaultAlarmTimeout { get; set; }
 
         int lastNotificationId = 0;
 
@@ -35,10 +35,9 @@ namespace TimerAppDroid
         public AndroidNotificationAdaptor(Activity _context, Ringtone alarmTone, NotificationManager _notificationManager)
         {
             context = _context;
-            //AlarmTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
             AlarmTone = alarmTone;
             notificationManager = _notificationManager;
-            defaultAlarmTimeout = 30;
+            DefaultAlarmTimeout = 30;
         }
         
         public void PostNotification(TimerState timerState)
@@ -54,9 +53,7 @@ namespace TimerAppDroid
             {
                 StopAlarmTone();
             }
-
-            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
-
+            
             notificationManager.Cancel(notificationId);
         }
 
@@ -79,8 +76,7 @@ namespace TimerAppDroid
         {
             NotificationId = timerService.State.Id;
             this.timerService = timerService;
-
-            //Intent intent = CreateIntent(timerService.State);
+            
             Intent intent = new Intent(context, typeof(MainActivity));
             intent.SetFlags(ActivityFlags.ReorderToFront);
 
@@ -104,10 +100,7 @@ namespace TimerAppDroid
             {
                 notification.Category = Notification.CategoryAlarm;
             }
-
-            //
-            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
-
+            
             notificationManager.Notify(NotificationId, notification);
         }
 
@@ -117,10 +110,7 @@ namespace TimerAppDroid
 
             const int pendingIntentId = MainActivity.REQUEST_CODE_PENDING_INTENT;
             PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
-
-
-            //Android.Net.Uri defaultTone = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
-            //Android.Net.Uri tone = Android.Net.Uri.Parse("android.resource://" + context.PackageName + "/Raw/" + Resource.Raw.elegant_ringtone);
+            
             Notification.Builder builder = new Notification.Builder(context)
                 .SetContentTitle(timerState.AlarmName)
                 .SetContentText("Timer has finished")
@@ -133,10 +123,7 @@ namespace TimerAppDroid
             {
                 notification.Category = Notification.CategoryAlarm;
             }
-
-            //
-            //NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
-
+            
             notificationManager.Notify(timerState.Id, notification);
 
             PlayAlarmTone(timerState);
@@ -158,7 +145,7 @@ namespace TimerAppDroid
 
             Task.Factory.StartNew(() =>
             {
-                System.Threading.Thread.Sleep(defaultAlarmTimeout * 1000);
+                System.Threading.Thread.Sleep(DefaultAlarmTimeout * 1000);
                 if (timerState.Id == lastNotificationId)
                 {
                     if (currentlyPlayingTone != null && currentlyPlayingTone.IsPlaying)

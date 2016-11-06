@@ -194,10 +194,7 @@ namespace TimerAppShared
                 return;
 
             state.Flags.SetBits(TimerState.RUNNING_BIT | TimerState.STARTED_BIT);
-            //if (IsElapsed() == false)
-            {
-                state.TimeStart = DateTime.Now;
-            }
+            state.TimeStart = DateTime.Now;
 
             runTask();
         }
@@ -217,28 +214,20 @@ namespace TimerAppShared
 
         public void Stop()
         {
-            //if (IsElapsed() == false)
-            {
-                DateTime timeNow = DateTime.Now;
-                TimeSpan timeDelta = timeNow.Subtract(state.TimeStart);
+            DateTime timeNow = DateTime.Now;
+            TimeSpan timeDelta = timeNow.Subtract(state.TimeStart);
 
-                state.TimeLeft = state.TimeLeft - timeDelta.TotalSeconds;
-                //if (state.timeLeft < 0)
-                //{
-                //    state.timeLeft = 0;
-                //}
+            state.TimeLeft = state.TimeLeft - timeDelta.TotalSeconds;
 
-                state.Flags.ClearBits(TimerState.RUNNING_BIT);
+            state.Flags.ClearBits(TimerState.RUNNING_BIT);
 
-                OnTimerPaused(EventArgs.Empty);
-            }
+            OnTimerPaused(EventArgs.Empty);
         }
 
         public void Reset()
         {
             state.Flags.ClearBits(TimerState.RUNNING_BIT | TimerState.ELAPSED_BIT | TimerState.STARTED_BIT);
             state.TimeLeft = state.Duration;
-            //timerAdaptor.UpdateDisplay();
             OnDisplayTimeChanged(EventArgs.Empty);
         }
 
@@ -250,30 +239,11 @@ namespace TimerAppShared
         static void CheckStatus(Object state)
         {
             TimerService timerService = (TimerService)state;
-            //timerService.timerAdaptor.UpdateDisplay();
             timerService.OnDisplayTimeChanged(EventArgs.Empty);
         }
 
         public override string ToString()
         {
-            //DateTime timeNow = DateTime.Now;
-            //long secondsLeft = 0;
-            //if (GetBit(RUNNING_BIT) || GetBit(ELAPSED_BIT))
-            //{
-            //    TimeSpan timeDelta = timeNow.Subtract(timeStart);
-            //    secondsLeft = (long)(timeLeft - timeDelta.TotalSeconds);
-            //}
-            //else
-            //{
-            //    secondsLeft = (long)timeLeft;
-            //}
-
-            //if (secondsLeft < 0)
-            //{
-            //    secondsLeft *= -1;
-            //    SetBit(ELAPSED_BIT, true);
-            //}
-
             long secondsLeft = (long)Math.Round( CalcSeconds() );
             int hours = (int)secondsLeft / 3600;
             secondsLeft -= 3600 * hours;

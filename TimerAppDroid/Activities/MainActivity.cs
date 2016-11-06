@@ -26,8 +26,6 @@ namespace TimerAppDroid
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : Activity
     {
-        bool firstLoad = true;
-
         ListView timerListView;
         TimerListAdaptor timerListAdaptor;
 
@@ -46,52 +44,45 @@ namespace TimerAppDroid
 
         const string defaultSettingsKey = "default";
 
-        BitField flags;
+        //BitField flags;
         
         const int PAUSE_ALL_BIT = 1;
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            
-            //timerList.saveToBundle(outState);
         }
         
-        [SecurityCritical]
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             
-            if (firstLoad)
+            // Load string resources
+            AppStrings.updateStrings(this);
+
+            // Initialise Notification manager
+            var defaultRingtone = RingtoneManager.GetRingtone(this, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+            AndroidNotificationManager.Initialize(this, defaultRingtone);
+            notificationAdaptor = AndroidNotificationManager.GetAdaptor();
+
+            // Load timers
+            TimerServiceManager.LoadTimersFromDatabase();
+            TimerServiceManager.SortTimersByActiveAndTimeLeft();
+
+            // Load settings
+            var preferences = GetPreferences(FileCreationMode.Private);
+            string ringtoneString = preferences.GetString("ringtone", null);
+            if (ringtoneString != null)
             {
-                // Load string resources
-                AppStrings.updateStrings(this);
-
-                // Initialise Notification manager
-                var defaultRingtone = RingtoneManager.GetRingtone(this, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
-                AndroidNotificationManager.Initialize(this, defaultRingtone);
-                notificationAdaptor = AndroidNotificationManager.GetAdaptor();
-
-                // Load timers
-                TimerServiceManager.LoadTimersFromDatabase();
-                TimerServiceManager.SortTimersByActiveAndTimeLeft();
-
-                // Load settings
-                var preferences = GetPreferences(FileCreationMode.Private);
-                string ringtoneString = preferences.GetString("ringtone", null);
-                if (ringtoneString != null)
-                {
-                    Android.Net.Uri ringtoneUri = Android.Net.Uri.Parse(ringtoneString);
-                    var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
-                    notificationAdaptor.AlarmTone = alarmTone;
-                }
-
-                firstLoad = false;
+                Android.Net.Uri ringtoneUri = Android.Net.Uri.Parse(ringtoneString);
+                var alarmTone = RingtoneManager.GetRingtone(this, ringtoneUri);
+                notificationAdaptor.AlarmTone = alarmTone;
             }
+                
 
             TimerAppStatus.SetAppState(TimerAppStatus.STATE_ACTIVE);
 
-            // Set our view from the "main" layout resource
+            // Set our view from the "Main" layout resource
             SetContentView(Resource.Layout.Main);
 
             timerListView = FindViewById<ListView>(Resource.Id.timerListView);
@@ -99,16 +90,9 @@ namespace TimerAppDroid
             {
                 timerListAdaptor = new TimerListAdaptor(this);
                 timerListView.Adapter = timerListAdaptor;
-                timerListView.ItemClick += OnListItemClick;
-            }
-            
-            if (bundle != null)
-            {
-
             }
             
             Button addTimerButton = FindViewById<Button>(Resource.Id.AddTimerButton);
-            Button pauseAllButton = FindViewById<Button>(Resource.Id.PauseAllButton);
             Button settingsButton = FindViewById<Button>(Resource.Id.SettingsButton);
 
             addTimerButton.Click += delegate
@@ -117,25 +101,7 @@ namespace TimerAppDroid
                 var intent = new Intent(this, typeof(TimerEditorActivity));
                 StartActivityForResult(intent, REQUEST_CODE_ADD_TIMER);
             };
-
-            pauseAllButton.Click += delegate
-            {
-                if (flags.GetBit(PAUSE_ALL_BIT))
-                {
-                    //timerList.StartAllTimers();
-                    // TODO: 
-                    pauseAllButton.Text = "Pause All";
-                    flags.ClearBits(PAUSE_ALL_BIT);
-                }
-                else
-                {
-                    //timerList.StopAllTimers();
-                    // TODO: 
-                    pauseAllButton.Text = "Resume All";
-                    flags.SetBits(PAUSE_ALL_BIT);
-                }
-            };
-
+            
             settingsButton.Click += delegate
             {
                 Intent intent = new Intent(RingtoneManager.ActionRingtonePicker);
@@ -165,26 +131,8 @@ namespace TimerAppDroid
         protected override void OnStop()
         {
             base.OnStop();
-
-            // Save timers to database
-            //timerList.SaveTimersToDatabase();
-            // TODO: 
         }
-
-        void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            var listView = sender as ListView;
-            var t = TimerServiceManager.Instance[e.Position];
-            Android.Widget.Toast.MakeText(this, t.State.AlarmName, Android.Widget.ToastLength.Short).Show();
-            
-            var listItemView = e.View as TimerListItemView;
-            if (listItemView != null)
-            {
-                // Toggle controls enabled
-                listItemView.ControlsLayout.Enabled = !listItemView.ControlsLayout.Enabled;
-            }
-        }
-
+        
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -213,19 +161,6 @@ namespace TimerAppDroid
                             var timerService = TimerServiceManager.NewTimerService(timerDBItem);
                             TimerServiceManager.SaveTimerToDatabase(timerService);
                             TimerServiceManager.SortTimersByActiveAndTimeLeft();
-
-                            //if (timerListAdaptor != null)
-                            //{
-                            //    timerListAdaptor.ContentChanged();
-                            //}
-
-                            // Save timer to database
-                            //timerList.SaveTimerToDatabase(timerDBItem);
-
-                                //timerList.AddTimerToListView(timerDBItem, start);
-
-                                //timerList.SortTimersByActiveAndTimeLeft();
-                                // TODO: 
                         }
                         break;
                     }
@@ -233,11 +168,8 @@ namespace TimerAppDroid
                     {
                         if (resultCode == Result.Ok)
                         {
-                            //timerList.SortTimersByActiveAndTimeLeft();
-                            //timerList.SaveTimersToDatabase();
-                            TimerServiceManager.SortTimersByActiveAndTimeLeft();
                             TimerServiceManager.SaveTimersToDatabase();
-                            // TODO: 
+                            TimerServiceManager.SortTimersByActiveAndTimeLeft();
                         }
                         break;
                     }
